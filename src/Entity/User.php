@@ -38,18 +38,69 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="createdby", orphanRemoval=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $pictures;
+    private $firstname;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Profil", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $banner;
+    private $lastname;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $pseudo;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkFacebook;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkTwitter;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkInstagram;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkYoutube;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkDiscord;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkTwitch;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Group", mappedBy="createdBy")
+     */
+    private $createGroup;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\AffGroup", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $affGroups;
 
     public function __construct()
     {
-        $this->pictures = new ArrayCollection();
+        $this->createGroup = new ArrayCollection();
+        $this->GroupeMember = new ArrayCollection();
     }
 
 
@@ -130,22 +181,192 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
-    public function getBanner(): ?Profil
+    /**
+     * @return string|null
+     */
+    public function getFirstname(): ?string
     {
-        return $this->banner;
+        return $this->firstname;
     }
 
-    public function setBanner(Profil $banner): self
+    /**
+     * @param string|null $firstname
+     * @return $this
+     */
+    public function setFirstname(?string $firstname): self
     {
-        $this->banner = $banner;
+        $this->firstname = $firstname;
 
-        // set the owning side of the relation if necessary
-        if ($banner->getUser() !== $this) {
-            $banner->setUser($this);
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    /**
+     * @param string|null $lastname
+     * @return $this
+     */
+    public function setLastname(?string $lastname): self
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getPseudo(): ?string
+    {
+        return $this->pseudo;
+    }
+
+    /**
+     * @param string $pseudo
+     * @return $this
+     */
+    public function setPseudo(string $pseudo): self
+    {
+        $this->pseudo = $pseudo;
+
+        return $this;
+    }
+
+    public function getLinkFacebook(): ?string
+    {
+        return $this->linkFacebook;
+    }
+
+    public function setLinkFacebook(?string $linkFacebook): self
+    {
+        $this->linkFacebook = $linkFacebook;
+
+        return $this;
+    }
+
+    public function getLinkTwitter(): ?string
+    {
+        return $this->linkTwitter;
+    }
+
+    public function setLinkTwitter(?string $linkTwitter): self
+    {
+        $this->linkTwitter = $linkTwitter;
+
+        return $this;
+    }
+
+    public function getLinkInstagram(): ?string
+    {
+        return $this->linkInstagram;
+    }
+
+    public function setLinkInstagram(?string $linkInstagram): self
+    {
+        $this->linkInstagram = $linkInstagram;
+
+        return $this;
+    }
+
+    public function getLinkYoutube(): ?string
+    {
+        return $this->linkYoutube;
+    }
+
+    public function setLinkYoutube(?string $linkYoutube): self
+    {
+        $this->linkYoutube = $linkYoutube;
+
+        return $this;
+    }
+
+    public function getLinkDiscord(): ?string
+    {
+        return $this->linkDiscord;
+    }
+
+    public function setLinkDiscord(?string $linkDiscord): self
+    {
+        $this->linkDiscord = $linkDiscord;
+
+        return $this;
+    }
+
+    public function getLinkTwitch(): ?string
+    {
+        return $this->linkTwitch;
+    }
+
+    public function setLinkTwitch(?string $linkTwitch): self
+    {
+        $this->linkTwitch = $linkTwitch;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Group[]
+     */
+    public function getCreateGroup(): Collection
+    {
+        return $this->createGroup;
+    }
+
+    public function addCreateGroup(Group $createGroup): self
+    {
+        if (!$this->createGroup->contains($createGroup)) {
+            $this->createGroup[] = $createGroup;
+            $createGroup->setCreatedBy($this);
         }
 
         return $this;
     }
 
+    public function removeCreateGroup(Group $createGroup): self
+    {
+        if ($this->createGroup->contains($createGroup)) {
+            $this->createGroup->removeElement($createGroup);
+            // set the owning side to null (unless already changed)
+            if ($createGroup->getCreatedBy() === $this) {
+                $createGroup->setCreatedBy(null);
+            }
+        }
 
+        return $this;
+    }
+
+    public function getAffGroups(): ?AffGroup
+    {
+        return $this->affGroups;
+    }
+
+    public function setAffGroups(AffGroup $affGroups): self
+    {
+        $this->affGroups = $affGroups;
+
+        // set the owning side of the relation if necessary
+        if ($affGroups->getUser() !== $this) {
+            $affGroups->setUser($this);
+        }
+
+        return $this;
+    }
 }

@@ -1,36 +1,36 @@
 <div class="aside_Block w-100 mt-2 p-3 widget container">
     <h3>Réseaux</h3>
     <div class="row social-links ml-2 mr-2 justify-content-center align-items-center d-flex">
-        {% if user.linkFacebook is not null %}
+        {% if etablissement.linkFacebook is not null %}
             <div class="social-link facebook ">
-                <a href="{{ user.linkFacebook }}" class="d-flex justify-content-center align-items-center">
+                <a href="{{ etablissement.linkFacebook }}" class="d-flex justify-content-center align-items-center">
                     <svg class="social-link-icon icon-facebook">
                         <use xlink:href="#svg-facebook"></use>
                     </svg>
                 </a>
             </div>
         {% endif %}
-        {% if user.linkTwitter is not null %}
+        {% if etablissement.linkTwitter is not null %}
             <div class="social-link twitter">
-                <a href="{{ user.linkTwitter }}" target="_blank" class="d-flex justify-content-center align-items-center">
+                <a href="{{ etablissement.linkTwitter }}" target="_blank" class="d-flex justify-content-center align-items-center">
                     <svg class="social-link-icon icon-twitter">
                         <use xlink:href="#svg-twitter"></use>
                     </svg>
                 </a>
             </div>
         {% endif %}
-        {% if user.linkInstagram is not null %}
+        {% if etablissement.linkInstagram is not null %}
             <div class="social-link instagram">
-                <a href="{{ user.linkInstagram }}" target="_blank" class="d-flex justify-content-center align-items-center">
+                <a href="{{ etablissement.linkInstagram }}" target="_blank" class="d-flex justify-content-center align-items-center">
                     <svg class="social-link-icon icon-instagram">
                         <use xlink:href="#svg-instagram"></use>
                     </svg>
                 </a>
             </div>
         {% endif %}
-        {% if user.linkTwitch is not null %}
+        {% if etablissement.linkTwitch is not null %}
             <div class="social-link twitch">
-                <a href="{{ user.linkTwitch }}" target="_blank" class="d-flex justify-content-center align-items-center">
+                <a href="{{ etablissement.linkTwitch }}" target="_blank" class="d-flex justify-content-center align-items-center">
                     <svg class="social-link-icon icon-twitch">
                         <use xlink:href="#svg-twitch"></use>
                     </svg>
@@ -44,18 +44,18 @@
                 </svg>
             </a>
         </div>-->
-        {% if user.linkYoutube is not null %}
+        {% if etablissement.linkYoutube is not null %}
         <div class="social-link youtube">
-            <a href="{{ user.linkYoutube }}" target="_blank" class="d-flex justify-content-center align-items-center">
+            <a href="{{ etablissement.linkYoutube }}" target="_blank" class="d-flex justify-content-center align-items-center">
                 <svg class="social-link-icon icon-youtube">
                     <use xlink:href="#svg-youtube"></use>
                 </svg>
             </a>
         </div>
         {% endif %}
-        {% if user.linkDiscord is not null %}
+        {% if etablissement.linkDiscord is not null %}
         <div class="social-link discord">
-            <a href="{{ user.linkDiscord }}" target="_blank" class="d-flex justify-content-center align-items-center">
+            <a href="{{ etablissement.linkDiscord }}" target="_blank" class="d-flex justify-content-center align-items-center">
                 <svg class="social-link-icon icon-discord">
                     <use xlink:href="#svg-discord"></use>
                 </svg>

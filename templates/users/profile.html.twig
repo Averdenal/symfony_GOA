@@ -27,8 +27,14 @@
                             <p class="cat_Info_User">Pays</p>
                         </div>
                     </div>
-                    <div class="col-4">
-                        <p class="name_User text-center">Amaury VERDENAL</p>
+                    <div class="col-4 row">
+                        <div class="col-6 p-0">
+                            <p class="name_User text-right">{{ user.firstname | capitalize  }}</p>
+                        </div>
+                        <div class="col-6 p-0">
+                            <p class="name_User text-center">{{ user.lastname | upper }}</p>
+                        </div>
+
                     </div>
                     <div class="col-4 badge_User_profil d-flex justify-content-end align-items-center">
                         <img src="{{ asset('build/img/badge/admin-b.png') }}" alt="" class="badge_User_icon ml-2">
@@ -45,6 +51,7 @@
                 {% include 'content/widgets/widget-reseaux.html.twig' %}
                 <div class="aside_Block w-100 mt-2 p-2">
                     <h3>Informations</h3>
+                    <p>{{ user.description }}</p>
                 </div>
                 <div class="aside_Block w-100 mt-2 p-2">
                     <h3>Upcoming Events</h3>

@@ -85,6 +85,36 @@ class Etablissement
 
     private $slug;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkFacebook;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkDiscord;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkYoutube;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkTwitch;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkInstagram;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $linkTwitter;
+
 
     public function getId(): ?int
     {
@@ -209,6 +239,78 @@ class Etablissement
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getLinkFacebook(): ?string
+    {
+        return $this->linkFacebook;
+    }
+
+    public function setLinkFacebook(?string $linkFacebook): self
+    {
+        $this->linkFacebook = $linkFacebook;
+
+        return $this;
+    }
+
+    public function getLinkDiscord(): ?string
+    {
+        return $this->linkDiscord;
+    }
+
+    public function setLinkDiscord(?string $linkDiscord): self
+    {
+        $this->linkDiscord = $linkDiscord;
+
+        return $this;
+    }
+
+    public function getLinkYoutube(): ?string
+    {
+        return $this->linkYoutube;
+    }
+
+    public function setLinkYoutube(?string $linkYoutube): self
+    {
+        $this->linkYoutube = $linkYoutube;
+
+        return $this;
+    }
+
+    public function getLinkTwitch(): ?string
+    {
+        return $this->linkTwitch;
+    }
+
+    public function setLinkTwitch(?string $linkTwitch): self
+    {
+        $this->linkTwitch = $linkTwitch;
+
+        return $this;
+    }
+
+    public function getLinkInstagram(): ?string
+    {
+        return $this->linkInstagram;
+    }
+
+    public function setLinkInstagram(?string $linkInstagram): self
+    {
+        $this->linkInstagram = $linkInstagram;
+
+        return $this;
+    }
+
+    public function getLinkTwitter(): ?string
+    {
+        return $this->linkTwitter;
+    }
+
+    public function setLinkTwitter(?string $linkTwitter): self
+    {
+        $this->linkTwitter = $linkTwitter;
 
         return $this;
     }

@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use \App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,18 +23,31 @@ class UserController extends AbstractController
      */
     public function profilConnectUser():Response
     {
-        return $this->render('users/profile.html.twig',[
-            "current_menu" => "profil"
-        ]);
+        if($this->getUser() != null){
+            return $this->render('users/profile.html.twig',[
+                "current_menu" => "profil",
+                'user'=>$this->getUser()
+            ]);
+        }else{
+            return $this->redirectToRoute('app_login');
+        }
+
     }
+
     /**
-     * @Route("/profil/show/{:login}",name="user.show")
+     * @Route("/profil/show/{id}",name="user.show")
+     * @param User $user
      * @return Response
      */
-    public function profil():Response
+    public function profil(User $user):Response
     {
+        dump($user);
+        dump($this->getUser());
         return $this->render('users/profile.html.twig',[
-            "current_menu" => "profil"
+            "current_menu" => "profil",
+            "userCo"=>$this->getUser(),
+            'user' => $user
+
         ]);
     }
     /**

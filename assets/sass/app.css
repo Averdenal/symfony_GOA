@@ -456,7 +456,7 @@ header nav {
     font-weight: 900; }
 
 .body_Login {
-  background-image: url("/img/landing/landing-background.jpg");
+  background-image: url("../../img/landing/landing-background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
