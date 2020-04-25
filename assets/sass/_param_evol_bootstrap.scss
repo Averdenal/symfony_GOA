@@ -1,0 +1,35 @@
+.rounded-xl{
+  border-radius: 15px;
+}
+.top_Banner{
+  position: relative;
+  min-height: 160px;
+  padding: 52px 60px 0 200px;
+  border-radius: 12px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-image: url("../img/banners/banner-bg.png");
+  position: relative;
+
+  .section_Img{
+    position: absolute;
+    left: 0;
+    bottom:0;
+  }
+  .top_Banner_Text{
+    color: white;
+    h2{
+      font-weight: 900;
+      font-size: 2.7rem;
+      margin-bottom: 0;
+    }
+    p{
+      font-size: 1.2rem;
+    }
+  }
+}
+.sub_Menu_Page{
+  svg{
+    fill: $gray-dark;
+  }
+}

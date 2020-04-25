@@ -1,0 +1,53 @@
+.preview_Event_Card{
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: $white;
+  .info_Event{
+    position: relative;
+    .descrip_Event{
+      margin-top: 15px;
+      height: 100px;
+    }
+    .lieu_Event{
+      text-align: right;
+      svg{
+        fill: $violet;
+        margin-right: 10px;
+      }
+
+    }
+    .title_Event {
+      margin-bottom: 15px;
+      a{
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-decoration: none;
+        color: $black-dark;
+        &:hover{
+        }
+      }
+
+    }
+    .date_Event{
+      position: absolute;
+      top: -55px;
+      left: 10%;
+      background-color: $black-dark-mid;
+      width: 25%;
+      font-weight: 900;
+      border-radius: 10px;
+      overflow: hidden;
+      color: $white;
+      .day_Event{
+        font-size: 1.5rem;
+        margin-bottom: 0;
+      }
+      .month_Event{
+        font-size: 1rem;
+        background-color: $violet;
+        margin-bottom: 0;
+        color: $white;
+      }
+    }
+  }
+}

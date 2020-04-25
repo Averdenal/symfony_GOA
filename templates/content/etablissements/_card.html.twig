@@ -1,0 +1,35 @@
+<div class="d-flex flex-column justify-content-center col-4 mb-4">
+    <div class="preview_Etablissement_Card">
+        <figure class="image_card">
+            <img src="{{ asset('build/img/cover/1.jpg') }}" alt="">
+        </figure>
+        <div class="info_Etablissement pl-4 pr-4 pb-4">
+            <div class="row">
+                <div class="col-12 title_Etablissement mb-2">
+                    <a href="">{{ etab.name | upper }}</a>
+                </div>
+            </div>
+            <div class="row info_Etablissement_Address_Status">
+                <div class="col-6 zone_Address mb-4">
+                    <p class="">{{ etab.address }}</p>
+                </div>
+                <div class="col-6 zone_status mb-4 text-right">
+                    <span>Open</span>
+                </div>
+            </div>
+            <div class="row info_Etablissement_Address_Status">
+                <div class="col-6 zone_Address mb-4">
+                    <p class="">Tarif : €€€</p>
+                </div>
+                <div class="col-6 zone_status mb-4 text-right">
+                    <span>Open</span>
+                </div>
+            </div>
+            <p class="descrip_Etablissement">{{etab.description}}</p>
+
+            <div class="mt-4">
+                <a href="{{ path('etablissements.getEtablissementById', {'id': etab.id, 'slug': etab.SlugName}) }}" class="btn btn-primary w-100">En savoir plus</a>
+            </div>
+        </div>
+    </div>
+</div>

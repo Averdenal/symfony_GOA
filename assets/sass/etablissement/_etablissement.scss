@@ -1,0 +1,46 @@
+#etablissement_info_unique{
+  .top_Block {
+    border-radius: 15px;
+    overflow: hidden;
+
+    .info_Etablissement {
+      button{
+        width: 50px;
+        height: 50px;
+        svg{
+          width: 40px;
+          height: 25px;
+        }
+        .icon-more-dots{
+          width: 30px;
+          height: 6px;
+        }
+      }
+      .name_Etablissement {
+        font-size: 1.7rem;
+        font-weight: 900;
+        text-transform: uppercase;
+
+      }
+
+      .info_Stat_Etablissement {
+        text-align: center;
+
+        .info_Stat {
+          color: $gray-dark;
+          font-weight: 700;
+          text-transform: uppercase;
+          font-size: .8rem;
+        }
+      }
+    }
+  }
+  .section_Action{
+    background-color: $white;
+    a{
+      svg{
+        fill: $gray-dark;
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+{% block body %}
+    <div class="container top_Banner mt-4 mb-4">
+        <img src="{{ asset('build/img/banners/badges-icon.png') }}" alt="" class="section_Img">
+        <div class="top_Banner_Text">
+            <h2>Les Events</h2>
+            <p>Tous ce que tu peux trouver en se moment</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            {% include 'content/events/preview-event.html.twig' %}
+            {% include 'content/events/preview-event.html.twig' %}
+            {% include 'content/events/preview-event.html.twig' %}
+            {% include 'content/events/preview-event.html.twig' %}
+            {% include 'content/events/preview-event.html.twig' %}
+            {% include 'content/events/preview-event.html.twig' %}
+            {% include 'content/events/preview-event.html.twig' %}
+        </div>
+    </div>
+{% endblock %}

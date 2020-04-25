@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <div class="container top_Banner mt-4 mb-4">
+        <img src="{{ asset('build/img/banners/badges-icon.png') }}" alt="" class="section_Img">
+        <div class="top_Banner_Text">
+            <h2>Les Bagdges</h2>
+            <p>Tu peux aller plus loin encore.</p>
+        </div>
+    </div>
+    <div class="container mt-4 mb-4">
+        <div class="row">
+            {% for badge in badges %}
+                {% include 'content/badges/_card_badge.html.twig'%}
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

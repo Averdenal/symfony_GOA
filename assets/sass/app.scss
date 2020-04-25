@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css?family=Titillium+Web:400,900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Rajdhani:400,500,600,700&display=swap');
+
+$font-primary: 'Rajdhani', sans-serif;
+$font-secondary: 'Titillium Web', sans-serif;
+
+
+@import "color";
+@import "color-theme";
+
+@import "icon";
+@import "header";
+
+@import "card";
+@import "event_preview/event_preview";
+@import "event_preview/event";
+@import "etablissement/etablissement_preview";
+@import "etablissement/etablissement";
+@import "param_evol_bootstrap";
+@import "widget/widget-reseaux";
+@import "user/user_Profil";
+@import "badges/card_badges";
+
+@import "login_register/login_register";
+
+a, h1, h2, h3, h4, h5, h6, p {
+  font-family: Rajdhani,sans-serif;
+}
+p{
+  margin: 0;
+  padding: 0;
+}
+.dropdown-toggle::after{
+  display: none;
+}
+.aside_Block{
+  border-radius: 10px;
+  background-color: $white;
+  h3{
+    text-transform: uppercase;
+    font-weight: 700;
+    color: $black-dark;
+    font-size: 1rem;
+  }
+}
+.nav_10000{
+  z-index: 10000;
+}
+.body{
+  padding-top: 70px;
+  background-color: $gray-lighter;
+}
+.Search_Bar{
+  form{
+    input,button{
+      border: none;
+      height: 45px;
+      vertical-align: middle;
+      outline: none;
+      background-color: $violet-dark;
+    }
+    input{
+      border-radius: 10px 0 0 10px;
+      color: $white;
+    }
+    button{
+      border-radius: 0 10px 10px 0;
+      color: $white-darker;
+      &:hover{
+        >svg{
+          fill: $white-darker;
+        }
+      }
+      svg{
+        fill: $gray-dark;
+        width: 30px;
+        height: 25px;
+      }
+    }
+  }
+}

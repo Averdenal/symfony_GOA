@@ -1,0 +1,38 @@
+.card_Badge{
+  position: relative;
+  padding-bottom: 10px;
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: $white;
+  .exp_badges{
+    width: 100px;
+    height: 30px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+  h4{
+    font-weight: 700;
+    margin: 20px;
+    text-transform: uppercase;
+  }
+  .badges_Card_Description{
+    width: 80%;
+    margin: 20px 10%;
+  }
+  .progress_Badges{
+    margin:0 10%;
+    background-color: $white-darker;
+    width: 80%;
+    height: 5px;
+    .progress{
+      height: 5px;
+      background-color: $violet-dark;
+    }
+  }
+  .status_Badges{
+    margin-top: 20px;
+    font-weight: 900;
+  }
+}

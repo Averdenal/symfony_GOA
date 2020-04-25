@@ -1,0 +1,538 @@
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web:400,900&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Rajdhani:400,500,600,700&display=swap");
+.icon-facebook,
+.icon-twitter,
+.icon-twitch,
+.icon-youtube,
+.icon-instagram,
+.icon-patreon,
+.icon-discord,
+.icon-google,
+.icon-behance,
+.icon-deviantart,
+.icon-artstation,
+.icon-dribbble,
+.icon-cross {
+  fill: #fff;
+  width: 12px;
+  height: 12px; }
+
+.icon-logo-vikinger {
+  fill: #fff;
+  width: 42px;
+  height: 60px; }
+  .icon-logo-vikinger.small {
+    width: 28px;
+    height: 40px; }
+
+.icon-dots {
+  fill: #fff;
+  width: 10px;
+  height: 2px; }
+
+.icon-public,
+.icon-private {
+  fill: #3e3f5e;
+  width: 20px;
+  height: 20px; }
+
+.icon-comment,
+.icon-thumbs-up,
+.icon-friend,
+.icon-info,
+.icon-group,
+.icon-marketplace,
+.icon-add-friend,
+.icon-remove-friend,
+.icon-delete,
+.icon-send-message,
+.icon-settings,
+.icon-cross-thin,
+.icon-newsfeed,
+.icon-overview,
+.icon-members,
+.icon-badges,
+.icon-quests,
+.icon-streams,
+.icon-events,
+.icon-events-monthly,
+.icon-events-weekly,
+.icon-events-daily,
+.icon-pin,
+.icon-ticket,
+.icon-forums,
+.icon-profile,
+.icon-timeline,
+.icon-photos,
+.icon-videos,
+.icon-blog-posts,
+.icon-forum,
+.icon-store,
+.icon-share,
+.icon-pinned,
+.icon-status,
+.icon-big-grid-view,
+.icon-small-grid-view,
+.icon-list-grid-view,
+.icon-poll,
+.icon-camera,
+.icon-gif,
+.icon-tags,
+.icon-trophy,
+.icon-return,
+.icon-clock,
+.icon-earnings,
+.icon-wallet,
+.icon-item,
+.icon-revenue {
+  fill: #fff;
+  width: 20px;
+  height: 20px; }
+
+.icon-lap {
+  width: 100px;
+  height: 100px; }
+
+.icon-grid,
+.icon-magnifying-glass,
+.icon-messages,
+.icon-shopping-bag,
+.icon-notification,
+.icon-join-group,
+.icon-leave-group,
+.icon-plus,
+.icon-login {
+  fill: #fff;
+  width: 20px;
+  height: 20px; }
+
+.icon-back-arrow {
+  width: 14px;
+  height: 10px; }
+
+.icon-small-arrow {
+  fill: #fff;
+  width: 6px;
+  height: 8px; }
+
+.icon-big-arrow {
+  fill: #3e3f5e;
+  width: 8px;
+  height: 12px; }
+
+.icon-more-dots {
+  fill: #fff;
+  width: 22px;
+  height: 6px; }
+
+.icon-star {
+  fill: white;
+  width: 9px;
+  height: 8px; }
+  .icon-star.medium {
+    width: 13px;
+    height: 12px; }
+
+.icon-play {
+  fill: #fff;
+  width: 12px;
+  height: 14px; }
+
+.icon-plus-small,
+.icon-minus-small {
+  fill: #3e3f5e;
+  width: 8px;
+  height: 8px; }
+
+.icon-quote {
+  fill: #3e3f5e;
+  width: 32px;
+  height: 22px; }
+
+.icon-check {
+  width: 12px;
+  height: 9px; }
+
+.demo-icon {
+  fill: white; }
+
+.icons_Hover:hover {
+  fill: #fff; }
+
+.facebook {
+  background-color: #3763d2; }
+
+.twitter {
+  background-color: #1abcff; }
+
+.twitch {
+  background-color: #7b5dfa; }
+
+.youtube {
+  background-color: #fd434f; }
+
+.instagram {
+  background-color: #f8468d; }
+
+.patreon {
+  background-color: #ff7a51; }
+
+.discord {
+  background-color: #7289da; }
+
+.google {
+  background-color: #ffc529; }
+
+.behance {
+  background-color: #3486f5; }
+
+.deviantart {
+  background-color: #32e1d3; }
+
+.artstation {
+  background-color: #00e194; }
+
+.dribbble {
+  background-color: #f761ab; }
+
+header nav {
+  background-color: #615dfa;
+  height: 70px; }
+
+.logo_top {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px; }
+
+.image_card img {
+  object-fit: cover;
+  width: 100%;
+  height: 100px; }
+
+.preview_Event_Card {
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #fff; }
+  .preview_Event_Card .info_Event {
+    position: relative; }
+    .preview_Event_Card .info_Event .descrip_Event {
+      margin-top: 15px;
+      height: 100px; }
+    .preview_Event_Card .info_Event .lieu_Event {
+      text-align: right; }
+      .preview_Event_Card .info_Event .lieu_Event svg {
+        fill: #615dfa;
+        margin-right: 10px; }
+    .preview_Event_Card .info_Event .title_Event {
+      margin-bottom: 15px; }
+      .preview_Event_Card .info_Event .title_Event a {
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-decoration: none;
+        color: #2e2e47; }
+    .preview_Event_Card .info_Event .date_Event {
+      position: absolute;
+      top: -55px;
+      left: 10%;
+      background-color: #302f45;
+      width: 25%;
+      font-weight: 900;
+      border-radius: 10px;
+      overflow: hidden;
+      color: #fff; }
+      .preview_Event_Card .info_Event .date_Event .day_Event {
+        font-size: 1.5rem;
+        margin-bottom: 0; }
+      .preview_Event_Card .info_Event .date_Event .month_Event {
+        font-size: 1rem;
+        background-color: #615dfa;
+        margin-bottom: 0;
+        color: #fff; }
+
+.preview_Event_Card {
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #fff; }
+  .preview_Event_Card .info_Event {
+    position: relative; }
+    .preview_Event_Card .info_Event .descrip_Event {
+      margin-top: 15px;
+      height: 100px; }
+    .preview_Event_Card .info_Event .lieu_Event {
+      text-align: right; }
+      .preview_Event_Card .info_Event .lieu_Event svg {
+        fill: #615dfa;
+        margin-right: 10px; }
+    .preview_Event_Card .info_Event .title_Event {
+      margin-bottom: 15px; }
+      .preview_Event_Card .info_Event .title_Event a {
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-decoration: none;
+        color: #2e2e47; }
+    .preview_Event_Card .info_Event .date_Event {
+      position: absolute;
+      top: -55px;
+      left: 10%;
+      background-color: #302f45;
+      width: 25%;
+      font-weight: 900;
+      border-radius: 10px;
+      overflow: hidden;
+      color: #fff; }
+      .preview_Event_Card .info_Event .date_Event .day_Event {
+        font-size: 1.5rem;
+        margin-bottom: 0; }
+      .preview_Event_Card .info_Event .date_Event .month_Event {
+        font-size: 1rem;
+        background-color: #615dfa;
+        margin-bottom: 0;
+        color: #fff; }
+
+.preview_Etablissement_Card {
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff; }
+  .preview_Etablissement_Card .info_Etablissement .title_Etablissement {
+    border-radius: 15px;
+    width: 80%;
+    text-align: center; }
+    .preview_Etablissement_Card .info_Etablissement .title_Etablissement a {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #2e2e47;
+      text-decoration: none; }
+  .preview_Etablissement_Card .info_Etablissement .info_Etablissement_Address_Status {
+    height: 70px; }
+  .preview_Etablissement_Card .info_Etablissement .descrip_Etablissement {
+    height: 150px; }
+
+#etablissement_info_unique .top_Block {
+  border-radius: 15px;
+  overflow: hidden; }
+  #etablissement_info_unique .top_Block .info_Etablissement button {
+    width: 50px;
+    height: 50px; }
+    #etablissement_info_unique .top_Block .info_Etablissement button svg {
+      width: 40px;
+      height: 25px; }
+    #etablissement_info_unique .top_Block .info_Etablissement button .icon-more-dots {
+      width: 30px;
+      height: 6px; }
+  #etablissement_info_unique .top_Block .info_Etablissement .name_Etablissement {
+    font-size: 1.7rem;
+    font-weight: 900;
+    text-transform: uppercase; }
+  #etablissement_info_unique .top_Block .info_Etablissement .info_Stat_Etablissement {
+    text-align: center; }
+    #etablissement_info_unique .top_Block .info_Etablissement .info_Stat_Etablissement .info_Stat {
+      color: #8f91ac;
+      font-weight: 700;
+      text-transform: uppercase;
+      font-size: .8rem; }
+#etablissement_info_unique .section_Action {
+  background-color: #fff; }
+  #etablissement_info_unique .section_Action a svg {
+    fill: #8f91ac; }
+
+.rounded-xl {
+  border-radius: 15px; }
+
+.top_Banner {
+  position: relative;
+  min-height: 160px;
+  padding: 52px 60px 0 200px;
+  border-radius: 12px;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  background-image: url("../img/banners/banner-bg.png");
+  position: relative; }
+  .top_Banner .section_Img {
+    position: absolute;
+    left: 0;
+    bottom: 0; }
+  .top_Banner .top_Banner_Text {
+    color: white; }
+    .top_Banner .top_Banner_Text h2 {
+      font-weight: 900;
+      font-size: 2.7rem;
+      margin-bottom: 0; }
+    .top_Banner .top_Banner_Text p {
+      font-size: 1.2rem; }
+
+.sub_Menu_Page svg {
+  fill: #8f91ac; }
+
+.widget .social-links .social-link {
+  margin: 10px 10px 0 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px; }
+  .widget .social-links .social-link a {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px; }
+    .widget .social-links .social-link a .social-link-icon {
+      width: 20px;
+      height: 20px; }
+
+#user_Info_Unique .top_Block {
+  border-radius: 15px;
+  overflow: hidden; }
+  #user_Info_Unique .top_Block figure {
+    position: relative; }
+    #user_Info_Unique .top_Block figure .banner {
+      width: 100%;
+      height: 250px;
+      object-fit: cover; }
+    #user_Info_Unique .top_Block figure .picture_Profil {
+      position: absolute;
+      left: 50%;
+      z-index: 1000;
+      transform: translateX(-50%);
+      top: 50%;
+      border-radius: 50%;
+      width: 150px;
+      height: 150px;
+      border: 4px solid #fff; }
+  #user_Info_Unique .top_Block .info_User {
+    height: 100px; }
+    #user_Info_Unique .top_Block .info_User .name_User {
+      font-weight: 900;
+      font-size: 1.7rem; }
+    #user_Info_Unique .top_Block .info_User .badge_User_profil .badge_User_icon {
+      width: 30px;
+      height: 30px; }
+    #user_Info_Unique .top_Block .info_User .cat_Info_User {
+      color: #8f91ac;
+      font-weight: 700; }
+
+.add_Posts {
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #fff; }
+  .add_Posts .btn_status_action {
+    height: 50px;
+    border: none;
+    background-color: transparent;
+    outline: none; }
+    .add_Posts .btn_status_action:hover {
+      border-bottom: 5px solid #4e4ac8; }
+  .add_Posts textarea {
+    width: 100%;
+    border: none;
+    background-color: #f5f5fa; }
+
+.card_Badge {
+  position: relative;
+  padding-bottom: 10px;
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #fff; }
+  .card_Badge .exp_badges {
+    width: 100px;
+    height: 30px;
+    position: absolute;
+    top: 10px;
+    right: 10px; }
+  .card_Badge h4 {
+    font-weight: 700;
+    margin: 20px;
+    text-transform: uppercase; }
+  .card_Badge .badges_Card_Description {
+    width: 80%;
+    margin: 20px 10%; }
+  .card_Badge .progress_Badges {
+    margin: 0 10%;
+    background-color: #f5f5fa;
+    width: 80%;
+    height: 5px; }
+    .card_Badge .progress_Badges .progress {
+      height: 5px;
+      background-color: #4e4ac8; }
+  .card_Badge .status_Badges {
+    margin-top: 20px;
+    font-weight: 900; }
+
+.body_Login {
+  background-image: url("/img/landing/landing-background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow: hidden;
+  width: 100%;
+  height: 100vh; }
+  .body_Login #left_Zone_Login_Registe {
+    padding: 0 5rem;
+    color: #fff; }
+    .body_Login #left_Zone_Login_Registe h1 {
+      font-weight: bold;
+      font-size: 3.5rem;
+      margin-block-end: 2rem; }
+  .body_Login #right_Zone_Login_Registe form {
+    width: 80%;
+    height: 400px;
+    background-color: #fcfcfd;
+    border-radius: 15px;
+    padding: 30px; }
+
+.btn_Action a {
+  font-size: 1.5rem;
+  color: white;
+  width: 40%;
+  outline: none; }
+  .btn_Action a:hover {
+    background-color: #fff;
+    color: #2e2e47;
+    transition: 0.7s ease background-color; }
+  .btn_Action a:first-child {
+    border-radius: 10px 0 0 10px; }
+  .btn_Action a:last-child {
+    border-radius: 0 10px 10px 0; }
+
+a, h1, h2, h3, h4, h5, h6, p {
+  font-family: Rajdhani,sans-serif; }
+
+p {
+  margin: 0;
+  padding: 0; }
+
+.dropdown-toggle::after {
+  display: none; }
+
+.aside_Block {
+  border-radius: 10px;
+  background-color: #fff; }
+  .aside_Block h3 {
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #2e2e47;
+    font-size: 1rem; }
+
+.nav_10000 {
+  z-index: 10000; }
+
+.body {
+  padding-top: 70px;
+  background-color: #eaeaf5; }
+
+.Search_Bar form input, .Search_Bar form button {
+  border: none;
+  height: 45px;
+  vertical-align: middle;
+  outline: none;
+  background-color: #4e4ac8; }
+.Search_Bar form input {
+  border-radius: 10px 0 0 10px;
+  color: #fff; }
+.Search_Bar form button {
+  border-radius: 0 10px 10px 0;
+  color: #f5f5fa; }
+  .Search_Bar form button:hover > svg {
+    fill: #f5f5fa; }
+  .Search_Bar form button svg {
+    fill: #8f91ac;
+    width: 30px;
+    height: 25px; }
+
+/*# sourceMappingURL=app.css.map */

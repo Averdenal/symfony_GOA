@@ -1,0 +1,26 @@
+.preview_Etablissement_Card{
+
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: $white;
+  .info_Etablissement{
+
+    .title_Etablissement{
+      border-radius: 15px;
+      width: 80%;
+      text-align: center;
+      a{
+        font-size: 1.4rem;
+        font-weight: 900;
+        color: $black-dark;
+        text-decoration: none;
+      }
+    }
+    .info_Etablissement_Address_Status{
+      height: 70px;
+    }
+    .descrip_Etablissement{
+      height: 150px;
+    }
+  }
+}

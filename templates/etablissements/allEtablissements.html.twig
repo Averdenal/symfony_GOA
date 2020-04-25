@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{%  block title 'Les etablissements' %}
+{% block body %}
+    <div class="container mt-4">
+        <div class="count">
+            il y a {{ etablissements.getTotalItemCount }} établissements
+        </div>
+        <table class="w-100 mb-4">
+            <tr>
+                <th{% if etablissements.isSorted('etab.name') %} class="sorted"{% endif %}>
+                    {{ knp_pagination_sortable(etablissements, 'Nom Etablissement', 'etab.name') }}
+                </th>
+            </tr>
+        </table>
+        <div class="row">
+            {% for etab in etablissements %}
+                {% include 'content/etablissements/_card.html.twig' %}
+            {% endfor %}
+        </div>
+
+
+        <div class="navigation">
+            {{ knp_pagination_render(etablissements) }}
+        </div>
+    </div>
+
+{% endblock %}
