@@ -93,17 +93,27 @@ class User implements UserInterface
     private $createGroup;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\AffGroup", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="createdBy")
      */
-    private $affGroups;
+    private $posts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="profile")
+     */
+    private $profilePost;
 
     public function __construct()
     {
         $this->createGroup = new ArrayCollection();
-        $this->GroupeMember = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->profilePost = new ArrayCollection();
     }
 
 
+    /**
+     * @return int|null
+     * @see UserInterface
+     */
     public function getId(): ?int
     {
         return $this->id;
@@ -349,22 +359,66 @@ class User implements UserInterface
                 $createGroup->setCreatedBy(null);
             }
         }
+        return $this;
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts[] = $post;
+            $post->setCeatedBy($this);
+        }
 
         return $this;
     }
 
-    public function getAffGroups(): ?AffGroup
+    public function removePost(Post $post): self
     {
-        return $this->affGroups;
+        if ($this->posts->contains($post)) {
+            $this->posts->removeElement($post);
+            // set the owning side to null (unless already changed)
+            if ($post->getCeatedBy() === $this) {
+                $post->setCeatedBy(null);
+            }
+        }
+
+        return $this;
     }
 
-    public function setAffGroups(AffGroup $affGroups): self
+    /**
+     * @return Collection|Post[]
+     */
+    public function getProfilePost(): Collection
     {
-        $this->affGroups = $affGroups;
+        return $this->profilePost;
+    }
 
-        // set the owning side of the relation if necessary
-        if ($affGroups->getUser() !== $this) {
-            $affGroups->setUser($this);
+    public function addProfilePost(Post $profilePost): self
+    {
+        if (!$this->profilePost->contains($profilePost)) {
+            $this->profilePost[] = $profilePost;
+            $profilePost->setProfile($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfilePost(Post $profilePost): self
+    {
+        if ($this->profilePost->contains($profilePost)) {
+            $this->profilePost->removeElement($profilePost);
+            // set the owning side to null (unless already changed)
+            if ($profilePost->getProfile() === $this) {
+                $profilePost->setProfile(null);
+            }
         }
 
         return $this;

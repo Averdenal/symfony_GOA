@@ -7,4 +7,11 @@
             <p>Tu en trouvera pour tout.</p>
         </div>
     </div>
+    <div class="container">
+        <div class="row">
+            {% for group in groups %}
+            {% include 'content/groups/card_group.html.twig' %}
+            {% endfor %}
+        </div>
+    </div>
 {% endblock %}

@@ -1,0 +1,53 @@
+.preview_Group_Card{
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: $white;
+  .image_card_profil{
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid $white;
+  }
+  .type_Group{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    right: 10%;
+    top: 70px;
+    background-color: $white;
+    box-shadow: $shadow-alt-2;
+    border-radius: 10px;
+  }
+  .info_Group{
+    position: relative;
+    button{
+      svg{
+        margin-right: 15px;
+      }
+    }
+    .descrip_Group{
+      margin-top: 15px;
+      height: 100px;
+    }
+
+    .title_Group{
+      margin-bottom: 15px;
+      a{
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-decoration: none;
+        color: $black-dark;
+        &:hover{
+        }
+      }
+    }
+    .sub-title{
+      font-weight: 700;
+      color: $gray;
+    }
+  }
+}

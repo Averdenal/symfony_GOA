@@ -32,12 +32,6 @@ class Picture
     private $createdat;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="pictures")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $createdby;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $cat;
@@ -79,18 +73,6 @@ class Picture
     public function setCreatedat(\DateTimeInterface $createdat): self
     {
         $this->createdat = $createdat;
-
-        return $this;
-    }
-
-    public function getCreatedby(): ?user
-    {
-        return $this->createdby;
-    }
-
-    public function setCreatedby(?user $createdby): self
-    {
-        $this->createdby = $createdby;
 
         return $this;
     }

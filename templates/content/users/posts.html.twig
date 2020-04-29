@@ -1,0 +1,32 @@
+<div class="add_Posts mt-2">
+    <div class="row">
+        <div class="col-12 p-2 row">
+            <div class="col-3">
+                <img src="" alt="">
+            </div>
+            <div class="col-9">
+                <div>
+                    {% if post.createdBy.id == app.user.id %}
+                        <a href="{{ path('user.profil') }}">
+                    {% else %}
+                        <a href="{{ path('user.show',{'id':post.createdBy.id}) }}">
+                    {% endif %}
+                        {% if post.createdBy.firstname is null %}
+                            {{ post.createdBy.pseudo }}
+                        {% else %}
+                            {{ post.createdBy.firstname }}
+                            {{ post.createdBy.lastname }}
+                        {% endif %}
+                    </a>
+                </div>
+                <div>
+                    {{ post.createdAt|date("m/d/Y H:i")}}
+                </div>
+
+            </div>
+        </div>
+        <div class="col-12 p-4">
+            {{ post.content }}
+        </div>
+    </div>
+</div>

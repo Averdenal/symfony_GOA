@@ -115,7 +115,6 @@ class Etablissement
      */
     private $linkTwitter;
 
-
     public function getId(): ?int
     {
         return $this->id;
@@ -314,5 +313,4 @@ class Etablissement
 
         return $this;
     }
-
 }

@@ -59,12 +59,7 @@
                         </svg>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('etablissements.getAllEtablissement')}}">Etablissements</a>
-                        <a class="dropdown-item" href="{{ path('groups.allGroupePublic')}}">Groupes</a>
-                        <a class="dropdown-item" href="{{ path('badges.allBadges')}}">Badges</a>
-                        <a class="dropdown-item" href="{{ path('events.allEvents')}}">Events</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">A Propos</a>
+
                     </div>
                 </li>
                 <li class="nav-item dropdown col-2 text-center">
@@ -74,12 +69,7 @@
                         </svg>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('etablissements.getAllEtablissement')}}">Etablissements</a>
-                        <a class="dropdown-item" href="{{ path('groups.allGroupePublic')}}">Groupes</a>
-                        <a class="dropdown-item" href="{{ path('badges.allBadges')}}">Badges</a>
-                        <a class="dropdown-item" href="{{ path('events.allEvents')}}">Events</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">A Propos</a>
+
                     </div>
                 </li>
                 <li class="nav-item dropdown col-2 text-center">
@@ -89,12 +79,7 @@
                         </svg>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('etablissements.getAllEtablissement')}}">Etablissements</a>
-                        <a class="dropdown-item" href="{{ path('groups.allGroupePublic')}}">Groupes</a>
-                        <a class="dropdown-item" href="{{ path('badges.allBadges')}}">Badges</a>
-                        <a class="dropdown-item" href="{{ path('events.allEvents')}}">Events</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">A Propos</a>
+
                     </div>
                 </li>
                 <li class="nav-item dropdown col-2 text-center">
@@ -104,12 +89,7 @@
                         </svg>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('etablissements.getAllEtablissement')}}">Etablissements</a>
-                        <a class="dropdown-item" href="{{ path('groups.allGroupePublic')}}">Groupes</a>
-                        <a class="dropdown-item" href="{{ path('badges.allBadges')}}">Badges</a>
-                        <a class="dropdown-item" href="{{ path('events.allEvents')}}">Events</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">A Propos</a>
+*
                     </div>
                 </li>
                 <li class="nav-item dropdown col-4 text-right">
@@ -119,15 +99,24 @@
                         </svg>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('etablissements.getAllEtablissement')}}">Etablissements</a>
-                        <a class="dropdown-item" href="{{ path('groups.allGroupePublic')}}">Groupes</a>
-                        <a class="dropdown-item" href="{{ path('badges.allBadges')}}">Badges</a>
-                        <a class="dropdown-item" href="{{ path('events.allEvents')}}">Events</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">A Propos</a>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                            <p>{{ app.user.pseudo }}</p>
+                        <a class="dropdown-item" href="{{ path('etablissements.getAllEtablissement')}}">Edit Profil</a>
+                        <a class="dropdown-item" href="{{ path('groups.create')}}">Créer un groupe</a>
+                        {% endif %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ path('badges.createBadges') }}">Créer un badge</a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a class="dropdown-item text-danger" href="{{ path('app_logout') }}">Déconnexion</a>
+                        {% else %}
+                            <a class="dropdown-item text-success" href="{{ path('app_login') }}">Connexion</a>
+                        {% endif %}
                     </div>
                 </li>
-
             </ul>
         </div>
     </div>

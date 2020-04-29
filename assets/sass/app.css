@@ -455,8 +455,47 @@ header nav {
     margin-top: 20px;
     font-weight: 900; }
 
+.preview_Group_Card {
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #fff; }
+  .preview_Group_Card .image_card_profil {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid #fff; }
+  .preview_Group_Card .type_Group {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    right: 10%;
+    top: 70px;
+    background-color: #fff;
+    box-shadow: 3px 5px 40px 0 rgba(94, 92, 154, 0.1);
+    border-radius: 10px; }
+  .preview_Group_Card .info_Group {
+    position: relative; }
+    .preview_Group_Card .info_Group button svg {
+      margin-right: 15px; }
+    .preview_Group_Card .info_Group .descrip_Group {
+      margin-top: 15px;
+      height: 100px; }
+    .preview_Group_Card .info_Group .title_Group {
+      margin-bottom: 15px; }
+      .preview_Group_Card .info_Group .title_Group a {
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-decoration: none;
+        color: #2e2e47; }
+    .preview_Group_Card .info_Group .sub-title {
+      font-weight: 700;
+      color: #adafca; }
+
 .body_Login {
-  background-image: url("../../img/landing/landing-background.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;

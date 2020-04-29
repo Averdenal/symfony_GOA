@@ -12,6 +12,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Group
 {
+    const statusinfo = [
+        0 => 'Public',
+        1 => 'Privé',
+        2 => 'invisible'
+    ];
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -40,14 +45,20 @@ class Group
      */
     private $createdBy;
 
+
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\AffGroup", mappedBy="goups", cascade={"persist", "remove"})
+     * @ORM\Column(type="string", length=255)
      */
-    private $affGroupUser;
+    private $title;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $status;
 
     public function __construct()
     {
-        $this->membres = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -103,19 +114,27 @@ class Group
         return $this;
     }
 
-    public function getAffGroupUser(): ?AffGroup
+    
+    public function getTitle(): ?string
     {
-        return $this->affGroupUser;
+        return $this->title;
     }
 
-    public function setAffGroupUser(AffGroup $affGroupUser): self
+    public function setTitle(string $title): self
     {
-        $this->affGroupUser = $affGroupUser;
+        $this->title = $title;
 
-        // set the owning side of the relation if necessary
-        if ($affGroupUser->getGoups() !== $this) {
-            $affGroupUser->setGoups($this);
-        }
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

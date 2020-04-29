@@ -1,0 +1,51 @@
+<div class="d-flex flex-column justify-content-center col-4 mb-4">
+    <div class="preview_Group_Card">
+        <figure class="image_card">
+            <img src="{{ asset('build/img/cover/1.jpg') }}" alt="">
+            <img src="{{ asset('build/img/avatars/2.jpg') }}" alt="" class="image_card_profil">
+            <div class="type_Group d-flex justify-content-center align-items-center">
+                {% if group.status == '0' %}
+                    <svg class="icon-public">
+                        <use xlink:href="#svg-public"></use>
+                    </svg>
+                {% elseif group.status == "1" %}
+                    <svg class="icon-private">
+                        <use xlink:href="#svg-private"></use>
+                    </svg>
+                {% endif %}
+            </div>
+        </figure>
+        <div class="info_Group p-4 text-center">
+            <div class="info_Group">
+                <div class="row">
+                    <div class="col-12 title_Group">
+                        <a href="">{{ group.title }}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-4">
+                        <p>243</p>
+                        <p class="sub-title">Membres</p>
+                    </div>
+                    <div class="col-4">
+                        <p>243</p>
+                        <p class="sub-title">Posts</p>
+                    </div>
+                    <div class="col-4">
+                        <p>243</p>
+                        <p class="sub-title">visite</p>
+                    </div>
+                </div>
+                <p class="descrip_Group">{{ group.description}} </p>
+            </div>
+            <div class="mt-4">
+                <button class="btn btn-primary w-100">
+                    <svg class="icon-join-group">
+                        <use xlink:href="#svg-join-group"></use>
+                    </svg>
+                    Rejoindre
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

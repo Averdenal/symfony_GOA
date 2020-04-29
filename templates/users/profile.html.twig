@@ -27,13 +27,17 @@
                             <p class="cat_Info_User">Pays</p>
                         </div>
                     </div>
-                    <div class="col-4 row">
+                    <div class="col-4 row text-center">
+                        {% if user.firstname is null or user.lastname is null %}
+                            <p class="text-center">{{ user.pseudo }}</p>
+                        {% else %}
                         <div class="col-6 p-0">
                             <p class="name_User text-right">{{ user.firstname | capitalize  }}</p>
                         </div>
                         <div class="col-6 p-0">
                             <p class="name_User text-center">{{ user.lastname | upper }}</p>
                         </div>
+                        {% endif %}
 
                     </div>
                     <div class="col-4 badge_User_profil d-flex justify-content-end align-items-center">
@@ -60,6 +64,9 @@
             <div class="col-6">
                 {% include 'content/users/add_Post.html.twig' %}
                 <!-- lists posts -->
+                {% for post in user.ProfilePost|reverse %}
+                    {% include 'content/users/posts.html.twig' %}
+                {% endfor %}
             </div>
             <aside class="col-3 p-0">
                 <div class="aside_Block w-100 mt-2 p-2">
