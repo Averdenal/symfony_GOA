@@ -93,6 +93,11 @@
   width: 100px;
   height: 100px; }
 
+.icon-skull {
+  width: 40px;
+  height: 40px;
+  fill: #fff; }
+
 .icon-grid,
 .icon-magnifying-glass,
 .icon-messages,
@@ -394,9 +399,15 @@ header nav {
       border-radius: 50%;
       width: 150px;
       height: 150px;
-      border: 4px solid #fff; }
+      border: 4px solid #fff;
+      object-fit: cover; }
   #user_Info_Unique .top_Block .info_User {
-    height: 100px; }
+    height: 100px;
+    position: relative; }
+    #user_Info_Unique .top_Block .info_User .text_Pseudo {
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: 1.7rem; }
     #user_Info_Unique .top_Block .info_User .name_User {
       font-weight: 900;
       font-size: 1.7rem; }
@@ -406,6 +417,15 @@ header nav {
     #user_Info_Unique .top_Block .info_User .cat_Info_User {
       color: #8f91ac;
       font-weight: 700; }
+    #user_Info_Unique .top_Block .info_User .btn_Zone_Action {
+      position: absolute;
+      top: -30px;
+      right: 2rem; }
+      #user_Info_Unique .top_Block .info_User .btn_Zone_Action button {
+        width: 150px;
+        margin-right: 20px; }
+        #user_Info_Unique .top_Block .info_User .btn_Zone_Action button svg {
+          margin-right: 10px; }
 
 .add_Posts {
   border-radius: 15px;
@@ -495,6 +515,39 @@ header nav {
       font-weight: 700;
       color: #adafca; }
 
+.search_Bar {
+  position: relative; }
+  .search_Bar input, .search_Bar button {
+    background-color: #4e4ac8;
+    border: none;
+    height: 50px;
+    outline: none; }
+  .search_Bar input {
+    border-radius: 15px 0 0 15PX;
+    color: #fff; }
+  .search_Bar button {
+    border-radius: 0 15px 15px 0; }
+  .search_Bar #search_Bar_Result {
+    border-radius: 15px;
+    position: absolute;
+    top: 50px;
+    background-color: #fff;
+    width: 100%; }
+    .search_Bar #search_Bar_Result .btn_Close {
+      position: absolute;
+      height: 30px;
+      width: 30px;
+      text-align: center;
+      vertical-align: middle;
+      top: 5px;
+      right: 5px;
+      color: #fff;
+      background-color: red;
+      font-weight: 900;
+      border-radius: 10px; }
+    .search_Bar #search_Bar_Result #search_Bar_Result_Info {
+      list-style: none; }
+
 .body_Login {
   background-repeat: no-repeat;
   background-size: cover;
@@ -536,6 +589,17 @@ p {
   margin: 0;
   padding: 0; }
 
+.flex_1 {
+  flex: 1; }
+
+.image_Friends {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50px;
+  border: 2px solid green;
+  overflow: hidden; }
+
 .dropdown-toggle::after {
   display: none; }
 
@@ -547,6 +611,9 @@ p {
     font-weight: 700;
     color: #2e2e47;
     font-size: 1rem; }
+
+.none {
+  display: none !important; }
 
 .nav_10000 {
   z-index: 10000; }

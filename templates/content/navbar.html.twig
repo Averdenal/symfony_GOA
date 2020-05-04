@@ -37,16 +37,26 @@
                 </li>
             </ul>
         </div>
-        <div class="col-5 Search_Bar">
+
+        <div class="col-5 search_Bar">
             <form class="form-inline my-2 my-lg-0 row m-0">
-                <input class=" col-11" type="search" placeholder="Search" aria-label="Search">
+                <input class=" col-11" type="search" placeholder="Search" aria-label="Search" id="search"  data-role="searchinput">
                 <button class="col-1 p-0" type="submit">
                     <svg class="icon-magnifying-glass">
                         <use xlink:href="#svg-magnifying-glass"></use>
                     </svg>
                 </button>
             </form>
+            <div id="search_Bar_Result" class="p-4 none">
+                <button class="btn_Close">X</button>
+                <ul id="search_Bar_Result_Info"></ul>
+            </div>
         </div>
+        <script>
+
+
+
+        </script>
         <div class="col-1">
             lvl user
         </div>
@@ -102,7 +112,7 @@
                         <div class="dropdown-divider"></div>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <p>{{ app.user.pseudo }}</p>
-                        <a class="dropdown-item" href="{{ path('etablissements.getAllEtablissement')}}">Edit Profil</a>
+                        <a class="dropdown-item" href="{{ path('user.edit',{'id':app.user.id})}}">Edit Profil</a>
                         <a class="dropdown-item" href="{{ path('groups.create')}}">Créer un groupe</a>
                         {% endif %}
                         {% if is_granted('ROLE_ADMIN') %}

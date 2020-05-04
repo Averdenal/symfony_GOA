@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,7 +13,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
-class User implements UserInterface
+class User implements UserInterface,\Serializable
 {
     /**
      * @ORM\Id()
@@ -102,13 +103,45 @@ class User implements UserInterface
      */
     private $profilePost;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Picture", cascade={"persist"})
+     */
+    private $pictureProfil;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Picture", cascade={"persist", "remove"})
+     */
+    private $banner;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Friends", mappedBy="user1", orphanRemoval=true, cascade={"persist"})
+     */
+    private $friends;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Friends", mappedBy="user2", orphanRemoval=true, cascade={"persist"})
+     */
+    private $friendsAddMe;
+
+
     public function __construct()
     {
         $this->createGroup = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->profilePost = new ArrayCollection();
+        $this->friends = new ArrayCollection();
+        $this->friendsAddMe = new ArrayCollection();
     }
-
 
     /**
      * @return int|null
@@ -421,6 +454,141 @@ class User implements UserInterface
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Picture|null
+     */
+    public function getPictureProfil(): ?Picture
+    {
+        return $this->pictureProfil;
+    }
+
+    /**
+     * @param Picture|null $pictureProfil
+     */
+    public function setPictureProfil(?Picture $pictureProfil): self
+    {
+        if($pictureProfil){
+            $this->updatedAt = new DateTime('now');
+        }
+        $this->pictureProfil = $pictureProfil;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->email,
+            $this->pseudo,
+            $this->password
+        ]);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->email,
+            $this->pseudo,
+            $this->password
+        ) = unserialize($serialized, ['allowed_classes' => false]);
+    }
+
+    public function getBanner(): ?Picture
+    {
+        return $this->banner;
+    }
+
+    public function setBanner(?Picture $banner): self
+    {
+        $this->banner = $banner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Friends[]
+     */
+    public function getFriends(): Collection
+    {
+        return $this->friends;
+    }
+
+    public function addFriend(Friends $friend): self
+    {
+        if (!$this->friends->contains($friend)) {
+            $this->friends[] = $friend;
+            $friend->setUser1($this);
+            $friend->setStatus($friend::statusaff[0]);
+        }
+
+        return $this;
+    }
+
+    public function removeFriend(Friends $friend): self
+    {
+        if ($this->friends->contains($friend)) {
+            $this->friends->removeElement($friend);
+            // set the owning side to null (unless already changed)
+            if ($friend->getUser1() === $this) {
+                $friend->setUser1(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Friends[]
+     */
+    public function getFriendsAddMe(): Collection
+    {
+        return $this->friendsAddMe;
+    }
+
+    public function removeFriendsAddMe(Friends $friendsAddMe): self
+    {
+        if ($this->friendsAddMe->contains($friendsAddMe)) {
+            $this->friendsAddMe->removeElement($friendsAddMe);
+            // set the owning side to null (unless already changed)
+            if ($friendsAddMe->getUser2() === $this) {
+                $friendsAddMe->setUser2(null);
+            }
+        }
         return $this;
     }
 }

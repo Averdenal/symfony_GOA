@@ -107,7 +107,6 @@ class Badge
      */
     public function setImageFile(?File $imageFile = null): void
     {
-        dump($imageFile);
         $this->imageFile = $imageFile;
 
         if (null !== $imageFile) {

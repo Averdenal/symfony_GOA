@@ -21,6 +21,7 @@ $font-secondary: 'Titillium Web', sans-serif;
 @import "user/user_Profil";
 @import "badges/card_badges";
 @import "groups/card_Groups";
+@import "search";
 
 @import "login_register/login_register";
 
@@ -30,6 +31,17 @@ a, h1, h2, h3, h4, h5, h6, p {
 p{
   margin: 0;
   padding: 0;
+}
+.flex_1{
+  flex:1;
+}
+.image_Friends{
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 50px;
+  border: 2px solid green;
+  overflow: hidden;
 }
 .dropdown-toggle::after{
   display: none;
@@ -43,6 +55,10 @@ p{
     color: $black-dark;
     font-size: 1rem;
   }
+
+}
+.none{
+  display: none!important;
 }
 .nav_10000{
   z-index: 10000;

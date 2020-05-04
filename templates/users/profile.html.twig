@@ -5,11 +5,11 @@
         <div class="row">
             <div class="col-12 top_Block p-0">
                 <figure class="mb-0">
-                    <img src="{{ asset('build/img/cover/1.jpg') }}" alt="" class="banner">
-                    <img src="{{  asset('build/img/avatars/2.jpg') }}" alt="" class="picture_Profil">
+                    <img src="{% if user.banner is null %}{{ asset('build/img/cover/1.jpg') }}{% else %}{{ asset(user.banner.url) }}{% endif %}" alt="Banner" class="banner">
+                    <img src="{% if user.pictureProfil is null %}{{ asset('build/img/avatars/2.jpg') }}{% else %}{{ asset(user.pictureProfil.url) }}{% endif %}" alt="Avatar" class="picture_Profil">
                 </figure>
-                <div class="info_User p-4 bg-light row align-items-center justify-content-center">
-                    <div class="col-4 row align-items-center ">
+                <div class="info_User p-4 bg-light d-flex align-items-center justify-content-around">
+                    <div class="align-items-center d-flex align-items-center justify-content-around flex_1">
                         <div class="d-flex align-items-center flex-column col-3">
                             <p>35k</p>
                             <p class="cat_Info_User">Visites</p>
@@ -27,20 +27,62 @@
                             <p class="cat_Info_User">Pays</p>
                         </div>
                     </div>
-                    <div class="col-4 row text-center">
-                        {% if user.firstname is null or user.lastname is null %}
-                            <p class="text-center">{{ user.pseudo }}</p>
-                        {% else %}
-                        <div class="col-6 p-0">
+                    {% if user.firstname is null or user.lastname is null %}
+                    <div class="d-flex justify-content-center flex_1">
+                        <p class="text_Pseudo">{{ user.pseudo }}</p>
+                    </div>
+                    {% else %}
+                    <div class="flex_1 d-flex align-items-center justify-content-center">
+
+                        <div class="p-1">
                             <p class="name_User text-right">{{ user.firstname | capitalize  }}</p>
                         </div>
-                        <div class="col-6 p-0">
+                        <div class="p-1">
                             <p class="name_User text-center">{{ user.lastname | upper }}</p>
                         </div>
-                        {% endif %}
 
                     </div>
-                    <div class="col-4 badge_User_profil d-flex justify-content-end align-items-center">
+                    {% endif %}
+                    <div class="btn_Zone_Action">
+                        {% if app.user != user %}
+                            {% if yourFriend == 'ko' %}
+                                <button id="add_Friend" class="btn btn-success" data-id="{{ user.id }}">
+                                    <svg class="icon-add-friend">
+                                        <use xlink:href="#svg-add-friend"></use>
+                                    </svg>
+                                    Add Friends
+                                </button>
+                            {% elseif yourFriend == 'aok' %}
+                                <button class="btn btn-warning" disabled>
+                                    <svg class="icon-add-friend">
+                                        <use xlink:href="#svg-add-friend"></use>
+                                    </svg>
+                                    en Attente
+                                </button>
+                            {% elseif yourFriend == 'vok' %}
+                                <button id="add_Friend" class="btn btn-warning" data-id="{{ user.id }}">
+                                    <svg class="icon-add-friend">
+                                        <use xlink:href="#svg-add-friend"></use>
+                                    </svg>
+                                    Demande
+                                </button>
+                            {% elseif yourFriend == 'ok' %}
+                                <button id="delete_Friend" class="btn btn-danger" data-id="{{ user.id }}">
+                                    <svg class="icon-remove-friend">
+                                        <use xlink:href="#svg-remove-friend"></use>
+                                    </svg>
+                                    Me saoul
+                                </button>
+                                <button class="btn btn-primary">
+                                    <svg class="icon-send-message">
+                                        <use xlink:href="#svg-send-message"></use>
+                                    </svg>
+                                    Message
+                                </button>
+                                {% endif %}
+                        {% endif %}
+                    </div>
+                    <div class="badge_User_profil d-flex justify-content-end align-items-center flex_1">
                         <img src="{{ asset('build/img/badge/admin-b.png') }}" alt="" class="badge_User_icon ml-2">
                         <img src="{{ asset('build/img/badge/admin-b.png') }}" alt="" class="badge_User_icon ml-2">
                         <img src="{{ asset('build/img/badge/admin-b.png') }}" alt="" class="badge_User_icon ml-2">
@@ -62,7 +104,9 @@
                 </div>
             </aside>
             <div class="col-6">
-                {% include 'content/users/add_Post.html.twig' %}
+                {% if yourFriend is not defined or yourFriend == 'ok'%}
+                    {% include 'content/users/add_Post.html.twig' %}
+                {% endif %}
                 <!-- lists posts -->
                 {% for post in user.ProfilePost|reverse %}
                     {% include 'content/users/posts.html.twig' %}
@@ -74,6 +118,18 @@
                 </div>
                 <div class="aside_Block w-100 mt-2 p-2">
                     <h3>Top Commentaire</h3>
+                </div>
+                <div class="aside_Block w-100 mt-2 p-2">
+                    <h3>Friends ({{ friends|length }})</h3>
+                        <div class="d-flex">
+                            {% for friend in friends %}
+                                {% if friend.status == "best friends" or  friend.status == "friends" %}
+                                    <a href="{{ path('user.show',{'id':friend.user.id}) }}">
+                                        <img class="image_Friends m-1" src="{% if friend.user.pictureProfil is null %}{{ asset('build/img/avatars/2.jpg')}}{% else %}{{ asset(friend.user.pictureProfil.url) }}{% endif %}" alt="">
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                 </div>
             </aside>
         </div>

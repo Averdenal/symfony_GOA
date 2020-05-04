@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Picture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @method Picture|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,28 @@ class PictureRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Picture::class);
+    }
+
+    /**
+     * @param UploadedFile $pictureFile
+     * @param string $urlStock
+     * @param string $urlPublic
+     * @param string $cat
+     * @return Picture
+     */
+    public function createPictureByFile(UploadedFile $pictureFile, string $urlStock, string $urlPublic, string $cat)
+    {
+        $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
+        $newFilename = $originalFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
+        $pictureFile->move($urlStock,$newFilename);
+
+        $picture = new Picture();
+        $picture->setImageFile($pictureFile)
+            ->setName($newFilename)
+            ->setCat($cat)
+            ->setUrl($urlPublic.$newFilename);
+
+        return $picture;
     }
 
     // /**

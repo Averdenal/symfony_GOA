@@ -1,0 +1,39 @@
+.search_Bar{
+  position: relative;
+  input,button{
+    background-color: $violet-dark;
+    border: none;
+    height: 50px;
+    outline: none;
+  }
+  input{
+    border-radius: 15px 0 0 15PX;
+    color: $white;
+  }
+  button{
+    border-radius:0 15px 15px 0;
+  }
+  #search_Bar_Result{
+    border-radius: 15px;
+    position: absolute;
+    top:50px;
+    background-color: $white;
+    width: 100%;
+    .btn_Close{
+      position: absolute;
+      height: 30px;
+      width: 30px;
+      text-align: center;
+      vertical-align: middle;
+      top: 5px;
+      right: 5px;
+      color: $white;
+      background-color: red;
+      font-weight: 900;
+      border-radius: 10px;
+    }
+    #search_Bar_Result_Info{
+      list-style: none;
+    }
+  }
+}

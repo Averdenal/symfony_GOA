@@ -3,7 +3,7 @@
     <div class="row social-links ml-2 mr-2 justify-content-center align-items-center d-flex">
         {% if app.user.linkFacebook is not null %}
             <div class="social-link facebook ">
-                <a href="{{ app.user.linkFacebook }}" class="d-flex justify-content-center align-items-center">
+                <a href="{{ app.user.linkFacebook }}" target="_blank" class="d-flex justify-content-center align-items-center">
                     <svg class="social-link-icon icon-facebook">
                         <use xlink:href="#svg-facebook"></use>
                     </svg>
