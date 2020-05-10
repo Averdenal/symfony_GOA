@@ -13,9 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
 class Group
 {
     const statusinfo = [
-        0 => 'Public',
-        1 => 'Privé',
-        2 => 'invisible'
+        'Public'=>0,
+        'Privé' =>1,
+        'invisible' => 2
     ];
     /**
      * @ORM\Id()
@@ -56,9 +56,20 @@ class Group
      */
     private $status;
 
+    /**
+     * @ORM\OneToMany(targetEntity=AffGroupe::class, mappedBy="groupe", cascade={"persist"})
+     */
+    private $affGroupes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="groupe",cascade={"persist"})
+     */
+    private $posts;
+
     public function __construct()
     {
-
+        $this->affGroupes = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -135,6 +146,68 @@ class Group
     public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AffGroupe[]
+     */
+    public function getAffGroupes(): Collection
+    {
+        return $this->affGroupes;
+    }
+
+    public function addAffGroupe(AffGroupe $affGroupe): self
+    {
+        if (!$this->affGroupes->contains($affGroupe)) {
+            $this->affGroupes[] = $affGroupe;
+            $affGroupe->setGroupe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAffGroupe(AffGroupe $affGroupe): self
+    {
+        if ($this->affGroupes->contains($affGroupe)) {
+            $this->affGroupes->removeElement($affGroupe);
+            // set the owning side to null (unless already changed)
+            if ($affGroupe->getGroupe() === $this) {
+                $affGroupe->setGroupe(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Post[]
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts[] = $post;
+            $post->setGroupe($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): self
+    {
+        if ($this->posts->contains($post)) {
+            $this->posts->removeElement($post);
+            // set the owning side to null (unless already changed)
+            if ($post->getGroupe() === $this) {
+                $post->setGroupe(null);
+            }
+        }
 
         return $this;
     }

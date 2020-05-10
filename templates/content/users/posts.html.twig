@@ -1,4 +1,25 @@
-<div class="add_Posts mt-2">
+{% set like = 0 %}{% set funny = 0 %}{% set happy = 0 %}{% set wow = 0 %}{% set love = 0 %}{% set sad = 0 %}{% set dislike = 0 %}
+{% for reaction in post.reaction %}
+    {% if reaction.react == 1 %}
+        {% set like = like + 1 %}
+    {% elseif reaction.react == 2 %}
+        {% set funny = funny + 1 %}
+    {% elseif reaction.react == 3 %}
+        {% set happy = happy + 1 %}
+    {% elseif reaction.react == 4 %}
+        {% set wow = wow + 1 %}
+    {% elseif reaction.react == 5 %}
+        {% set love = love + 1 %}
+    {% elseif reaction.react == 6 %}
+        {% set sad = sad + 1 %}
+    {% elseif reaction.react == 7 %}
+        {% set dislike = dislike + 1 %}
+    {% endif %}
+{% endfor %}
+<div class="add_Posts mt-2" data-id="{{ post.id }}">
+    {% if post.createdBy == app.user or post.profile == app.user %}
+    <a href="" class="delete_Post_User btn btn-danger"></a>
+    {% endif %}
         <div class="col-12 p-2 row">
             <div class="col-2">
                 <a href="{{ path('user.show',{'id':post.createdBy.id}) }}">
@@ -29,9 +50,89 @@
         <div class="col-12 p-4">
             {{ post.content }}
         </div>
-        <div class="col-12 p-2 d-flex justify-content-around align-items-center bg-light">
-            <button class="btn btn-light">Réactions</button>
-            <button class="btn btn-light">Commentaires</button>
-            <button class="btn btn-light">Partages</button>
+        <div id="zone_Action_User_Post_{{ post.id }}" class="zone_Action_User_Post col-12 p-2 d-flex justify-content-around align-items-center bg-light" data-id = {{ post.id }}>
+            <div class="zone_Action_Info_Reaction">
+
+                <div class="info_Reaction d-flex">
+                    <div class="ml-2">
+                        {% if like > 0 %}<img class="img_Reaction_min" src="{{ asset('build/img/reaction/like.png') }}" alt="{{ like }}">{% endif %}
+                        {% if funny > 0 %}<img class="img_Reaction_min" src="{{ asset('build/img/reaction/funny.png') }}" alt="{{ funny }}">{% endif %}
+                        {% if happy > 0 %}<img class="img_Reaction_min" src="{{ asset('build/img/reaction/happy.png') }}" alt="{{ happy }}">{% endif %}
+                        {% if wow > 0 %}<img class="img_Reaction_min" src="{{ asset('build/img/reaction/wow.png') }}" alt="{{ wow }}">{% endif %}
+                        {% if love > 0 %}<img class="img_Reaction_min" src="{{ asset('build/img/reaction/love.png') }}" alt="{{ love }}">{% endif %}
+                        {% if sad > 0 %}<img class="img_Reaction_min" src="{{ asset('build/img/reaction/sad.png') }}" alt="{{ sad }}">{% endif %}
+                        {% if dislike > 0 %}<img class="img_Reaction_min" src="{{ asset('build/img/reaction/dislike.png') }}" alt="{{ dislike }}">{% endif %}
+                    </div>
+                    {% if post.reaction|length > 0 %}
+                        <div>
+                            <p class=" ml-2">{{ post.reaction|length }}</p>
+                        </div>
+                    {% endif %}
+
+                </div>
+
+            </div>
+            {% if post.createdBy != app.user %}
+                <a class="btn btn-light btn_Action_Reaction">Réactions</a>
+            {% endif %}
+            <a class="btn btn-light btn_Action_Commentaires" href="{{ path('post.addComment',{'id':post.id}) }}">Commentaires</a>
+            <!--<button class="btn btn-light btn_Action_Partages">Partages</button>-->
         </div>
+        <div id="zone_Reaction_Post_{{ post.id }}" class="col-12 p-2 d-flex justify-content-around align-items-center bg-light none" data-id = {{ post.id }}>
+            <a class="action_Reaction" data-id="1" href=""><img class="img_Reaction" src="{{ asset('build/img/reaction/like.png') }}" alt=""></a>
+            <a class="action_Reaction" data-id="2" href=""><img class="img_Reaction" src="{{ asset('build/img/reaction/funny.png') }}" alt=""></a>
+            <a class="action_Reaction" data-id="3" href=""><img class="img_Reaction" src="{{ asset('build/img/reaction/happy.png') }}" alt=""></a>
+            <a class="action_Reaction" data-id="4" href=""><img class="img_Reaction" src="{{ asset('build/img/reaction/wow.png') }}" alt=""></a>
+            <a class="action_Reaction" data-id="5" href=""><img class="img_Reaction" src="{{ asset('build/img/reaction/love.png') }}" alt=""></a>
+            <a class="action_Reaction" data-id="6" href=""><img class="img_Reaction" src="{{ asset('build/img/reaction/sad.png') }}" alt=""></a>
+            <a class="action_Reaction" data-id="7" href=""><img class="img_Reaction" src="{{ asset('build/img/reaction/dislike.png') }}" alt=""></a>
+            <button class="btn btn-danger btn_Action_Close_Reaction">X</button>
+        </div>
+        {% if editComment is defined %}
+            <div class="zone_Comments_Post">
+                {% include 'content/users/add_Comment.html.twig' %}
+                <div class="result_Comments">
+                    {% if post.comments %}
+                        {% for comment in post.comments |reverse %}
+                            <div class="add_Posts mt-2" data-id="{{ comment.id }}">
+                                {% if post.createdBy == app.user or comment.user == app.user %}
+                                    <a href="" class="delete_Comment_User btn btn-danger"></a>
+                                {% endif %}
+                                <div class="col-12 p-2 row">
+                                    <div class="col-2">
+                                        <a href="{{ path('user.show',{'id':comment.user.id}) }}">
+                                            <img class="image_Friends ml-2 mt-1" src="{% if comment.user.pictureProfil is null %}{{ asset('build/img/avatars/2.jpg')}}{% else %}{{ asset(comment.user.pictureProfil.url) }}{% endif %}" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="col-9">
+                                        <div>
+                                            {% if comment.user.id == app.user.id %}
+                                            <a href="{{ path('user.profil') }}">
+                                                {% else %}
+                                                <a href="{{ path('user.show',{'id':comment.user.id}) }}">
+                                                    {% endif %}
+                                                    {% if comment.user.firstname is null %}
+                                                        {{ post.createdBy.pseudo }}
+                                                    {% else %}
+                                                        {{ comment.user.firstname }}
+                                                        {{ comment.user.lastname }}
+                                                    {% endif %}
+                                                </a>
+                                        </div>
+                                        <div>
+                                            {{ comment.createdAt|date("m/d/Y H:i")}}
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-12 p-4">
+                                    {{ comment.content }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+
 </div>

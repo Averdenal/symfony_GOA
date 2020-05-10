@@ -94,7 +94,7 @@ class User implements UserInterface,\Serializable
     private $createGroup;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="createdBy")
+     * @ORM\OneToMany(targetEntity="App\Entity\Post", mappedBy="createdBy",cascade={"persist","remove"})
      */
     private $posts;
 
@@ -133,6 +133,16 @@ class User implements UserInterface,\Serializable
      */
     private $friendsAddMe;
 
+    /**
+     * @ORM\Column(type="text",length=255, nullable=true)
+     */
+    private $token;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AffGroupe::class, mappedBy="user")
+     */
+    private $affGroupes;
+
 
     public function __construct()
     {
@@ -141,6 +151,7 @@ class User implements UserInterface,\Serializable
         $this->profilePost = new ArrayCollection();
         $this->friends = new ArrayCollection();
         $this->friendsAddMe = new ArrayCollection();
+        $this->affGroupes = new ArrayCollection();
     }
 
     /**
@@ -180,11 +191,13 @@ class User implements UserInterface,\Serializable
     public function getRoles(): array
     {
         $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_NEW';
 
         return array_unique($roles);
     }
-
+    public function addRole(string $role){
+        $this->roles[] = $role;
+    }
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -417,10 +430,10 @@ class User implements UserInterface,\Serializable
     {
         if ($this->posts->contains($post)) {
             $this->posts->removeElement($post);
-            // set the owning side to null (unless already changed)
-            if ($post->getCeatedBy() === $this) {
-                $post->setCeatedBy(null);
-            }
+            /* set the owning side to null (unless already changed)
+            if ($post->getCreatedBy() === $this) {
+                $post->setCreatedBy(null);
+            }*/
         }
 
         return $this;
@@ -589,6 +602,49 @@ class User implements UserInterface,\Serializable
                 $friendsAddMe->setUser2(null);
             }
         }
+        return $this;
+    }
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+    }
+
+    public function setToken(?string $token): self
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|AffGroupe[]
+     */
+    public function getAffGroupes(): Collection
+    {
+        return $this->affGroupes;
+    }
+
+    public function addAffGroupe(AffGroupe $affGroupe): self
+    {
+        if (!$this->affGroupes->contains($affGroupe)) {
+            $this->affGroupes[] = $affGroupe;
+            $affGroupe->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAffGroupe(AffGroupe $affGroupe): self
+    {
+        if ($this->affGroupes->contains($affGroupe)) {
+            $this->affGroupes->removeElement($affGroupe);
+            // set the owning side to null (unless already changed)
+            if ($affGroupe->getUser() === $this) {
+                $affGroupe->setUser(null);
+            }
+        }
+
         return $this;
     }
 }

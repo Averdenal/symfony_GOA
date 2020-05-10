@@ -10,11 +10,19 @@ import '../sass/app.css';
 
 const Friends = require('./Friends');
 Friends();
+const Reaction = require('./Reactions');
+Reaction();
+const NewPassword = require('./newPWD');
+NewPassword();
 
-import $ from 'jquery';
+$('textarea').keyup(function () {
+    $(this)[0].rows = 2;
+    while($(this)[0].clientHeight < $(this)[0].scrollHeight){
+        $(this)[0].rows = $(this)[0].rows+1;
+    }
+});
+
+// import $ from 'jquery';
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-
-
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
 

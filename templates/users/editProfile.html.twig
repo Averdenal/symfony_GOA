@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    {% if is_granted('ROLE_USER') %}
     <div class="p-4">
         {{ form_start(form) }}
         <input type="submit" value="Editer">
         {{ form_end(form) }}
     </div>
-
+    {% else %}
+        {%  include 'noUser.html.twig' %}
+    {% endif %}
 {% endblock %}
 

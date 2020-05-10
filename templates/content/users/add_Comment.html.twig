@@ -1,0 +1,5 @@
+<div class="form_Comment">
+    {{ form_start(formComment,{'action': path('post.addComment',{'id':post.id})})}}
+    <input type="submit" class="btn btn-success" value="Ajouter">
+    {{ form_end(formComment) }}
+</div>

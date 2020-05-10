@@ -1,5 +1,6 @@
 {% extends 'base.html.twig' %}
 
+
 {% block body %}
     <div class="container mt-4 pb-4" id="user_Info_Unique">
         <div class="row">
@@ -92,7 +93,7 @@
             </div>
         </div>
         {% include'content/widgets/sub_menu.html.twig' %}
-        <div class="row">
+        <div class="row" id="section_News">
             <aside class="col-3 p-0">
                 {% include 'content/widgets/widget-reseaux.html.twig' %}
                 <div class="aside_Block w-100 mt-2 p-2">
@@ -104,13 +105,17 @@
                 </div>
             </aside>
             <div class="col-6">
-                {% if yourFriend is not defined or yourFriend == 'ok'%}
-                    {% include 'content/users/add_Post.html.twig' %}
-                {% endif %}
-                <!-- lists posts -->
-                {% for post in user.ProfilePost|reverse %}
+                {% if editComment is not defined %}
+                    {% if yourFriend is not defined or yourFriend == 'ok'%}
+                        {% include 'content/users/add_Post.html.twig' %}
+                    {% endif %}
+                    <!-- lists posts -->
+                    {% for post in user.ProfilePost|reverse %}
+                        {% include 'content/users/posts.html.twig' %}
+                    {% endfor %}
+                {% else %}
                     {% include 'content/users/posts.html.twig' %}
-                {% endfor %}
+                {% endif %}
             </div>
             <aside class="col-3 p-0">
                 <div class="aside_Block w-100 mt-2 p-2">
@@ -134,6 +139,4 @@
             </aside>
         </div>
     </div>
-
 {% endblock %}
-

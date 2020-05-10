@@ -39,12 +39,38 @@
                 <p class="descrip_Group">{{ group.description}} </p>
             </div>
             <div class="mt-4">
-                <button class="btn btn-primary w-100">
-                    <svg class="icon-join-group">
-                        <use xlink:href="#svg-join-group"></use>
-                    </svg>
-                    Rejoindre
-                </button>
+                {% set membre = '' %}
+                {% for groups in app.user.affGroupes %}
+                    {% if groups.groupe == group %}
+                        {% if groups.status == 1 %}
+                            {% set membre = 'ok' %}
+                        {% else %}
+                            {% set membre = 'att' %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% if group.createdBy == app.user or membre == 'ok' %}
+                    <a href="{{ path('groupe.show',{'id':group.id}) }}" class="btn btn-success w-100">
+                        <svg class="icon-send-message">
+                            <use xlink:href="#svg-send-message"></use>
+                        </svg>
+                        Aller au groupe
+                    </a>
+                {% elseif membre == 'att'%}
+                    <button  class="btn btn-warning w-100" disabled>
+                        <svg class="icon-clock">
+                            <use xlink:href="#svg-clock"></use>
+                        </svg>
+                        En attente de validation
+                    </button>
+                {% else %}
+                    <a href="{{ path('groupe.aff',{'id':group.id}) }}" class="btn btn-primary w-100">
+                        <svg class="icon-join-group">
+                            <use xlink:href="#svg-join-group"></use>
+                        </svg>
+                        Rejoindre ?
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>

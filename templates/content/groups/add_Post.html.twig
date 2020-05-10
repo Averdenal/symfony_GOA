@@ -3,7 +3,7 @@
         <button class="col-12 btn_status_action">Status</button>
         <!--<button class="col-6 btn_status_action">Sondages</button>-->
     </div>
-    {{ form_start(formPost,{'action': path('post.addPostProfilUser',{'id':user.id})})}}
+    {{ form_start(formPost,{'action': path('groupe.addPostUser',{'id':group.id})})}}
     {{ form_row(formPost.content) }}
     <input type="submit" value="Post" class="btn btn-success w100">
     {{ form_end(formPost) }}
