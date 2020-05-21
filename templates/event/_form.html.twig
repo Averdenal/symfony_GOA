@@ -1,0 +1,11 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-12">{{ form_row(form.name) }}</div>
+    <div class="col-12">{{ form_row(form.description) }}</div>
+    <div class="col-6">{{ form_row(form.beginAt) }}</div>
+    <div class="col-6">{{  form_row(form.endAt) }}</div>
+    <div class="col-12">{{ form_row(form.address) }}</div>
+</div>
+
+    <button class="btn btn-success mb-4 w-100">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Event index{% endblock %}
+
+{% block body %}
+    <div class="container top_Banner mt-4 mb-4">
+        <img src="{{ asset('build/img/banners/badges-icon.png') }}" alt="" class="section_Img">
+        <div class="top_Banner_Text">
+            <h2>Les Events</h2>
+            <p>Tous ce que tu peux trouver en se moment</p>
+        </div>
+    </div>
+   <div class="container">
+       {% for message in app.flashes('warning') %}
+           <div class="alert alert-warning alert-dismissible fade show" role="alert">
+               {{ message }}
+               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                   <span aria-hidden="true">&times;</span>
+               </button>
+           </div>
+       {% endfor %}
+       <div class="row">
+           <div class="col-12 mb-2">
+               <a class="btn btn-primary" href="{{ path('event_new') }}">Create new</a>
+           </div>
+       {% for event in events %}
+       <div class="d-flex flex-column justify-content-center col-4 mb-4">
+           <div class="preview_Event_Card">
+               <figure class="image_card">
+                   <img src="{{ asset('build/img/cover/1.jpg') }}" alt="">
+               </figure>
+               <div class="info_Event p-4">
+                   <div class="date_Event d-flex flex-column text-center">
+                       {% if event.beginAt|date('d') == event.endAt|date('d') %}
+                           <p class="day_Event">{{ event.beginAt|date('d')}}</p>
+                       {% else %}
+                           <p class="day_Event">{{ event.beginAt|date('d')}} - {{ event.endAt|date('d') }}</p>
+                       {% endif %}
+                       {% if event.beginAt|date('M') == event.endAt|date('M') %}
+                           <p class="month_Event">{{ event.beginAt|date('M')}}</p>
+                       {% else %}
+                           <p class="month_Event">{{ event.beginAt|date('M')}} -> {{ event.endAt|date('M') }}</p>
+                       {% endif %}
+                   </div>
+                   <div class="info_Event">
+                       <div class="row">
+                           <div class="col-12 title_Event">
+                               <a href="">{{ event.name }}</a>
+                           </div>
+                           <div class="col-6 zone_Lieu_Hour">
+                               <p class="hour_Event">
+                                   {{ event.beginAt ? event.beginAt|date('H:i') : '' }} -
+                                   {{ event.endAt ? event.endAt|date('H:i') : '' }}
+                               </p>
+                           </div>
+                           <div class="col-6 lieu_Event d-flex flex-row justify-content-center align-items-center">
+                               <svg class="icon-pin">
+                                   <use xlink:href="#svg-pin"></use>
+                               </svg>
+                               <p class="lieu_Event">{{ event.address }}</p>
+                           </div>
+                       </div>
+                       <p class="descrip_Event">{{ event.description }}</p>
+                       <p class="orga_Event">Orga: Arthur</p>
+                   </div>
+                   <div class="mt-4">
+                       <a class="btn btn-primary w-100" href="{{ path('event_show', {'id': event.id}) }}">En savoir plus</a>
+                   </div>
+               </div>
+           </div>
+       </div>
+       {% else %}
+           <tr>
+               <td colspan="7">no records found</td>
+           </tr>
+       {% endfor %}
+       </div>
+   </div>
+{% endblock %}

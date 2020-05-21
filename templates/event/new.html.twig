@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Event{% endblock %}
+
+{% block body %}
+    <div class="container top_Banner mt-4 mb-4">
+        <img src="{{ asset('build/img/banners/badges-icon.png') }}" alt="" class="section_Img">
+        <div class="top_Banner_Text">
+            <h2>Les Events</h2>
+            <p>Créer un event</p>
+        </div>
+    </div>
+    <div class="container mt-4 pb-2">
+        {{ include('event/_form.html.twig') }}
+
+        <a class="btn btn-primary" href="{{ path('event_index') }}">back to list</a>
+    </div>
+{% endblock %}
