@@ -1,5 +1,19 @@
 <div class="form_Comment">
-    {{ form_start(formComment,{'action': path('post.addComment',{'id':post.id})})}}
-    <input type="submit" class="btn btn-success" value="Ajouter">
+    {{ form_start(formComment,{'action': path('post.addComment',{'id':post.id}),'attr':{'id':'createComment','data-id':post.id}})}}
+    {{ form_row(formComment.content,{'attr':{'class':'comment-Content-'~post.id}}) }}
+    <div class="w-100 row m-0">
+        <div class="col-1 p-0">
+            <a href="{{ app.request.headers.get('referer') }}" class="w-100 btn btn-danger">
+                <svg class="icon-back-arrow" style="fill: white">
+                    <use xlink:href="#svg-back-arrow"></use>
+                </svg>
+            </a>
+        </div>
+        <div class="col-11 p-0">
+            <input type="submit" class="btn btn-success w-100" value="Ajouter">
+        </div>
+
+    </div>
+
     {{ form_end(formComment) }}
 </div>

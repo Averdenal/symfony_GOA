@@ -27,7 +27,7 @@ class PictureRepository extends ServiceEntityRepository
      * @param string $cat
      * @return Picture
      */
-    public function createPictureByFile(UploadedFile $pictureFile, string $urlStock, string $urlPublic, string $cat)
+    public function createPictureByFile(UploadedFile $pictureFile, string $urlStock, string $cat)
     {
         $originalFilename = pathinfo($pictureFile->getClientOriginalName(), PATHINFO_FILENAME);
         $newFilename = $originalFilename.'-'.uniqid().'.'.$pictureFile->guessExtension();
@@ -37,7 +37,7 @@ class PictureRepository extends ServiceEntityRepository
         $picture->setImageFile($pictureFile)
             ->setName($newFilename)
             ->setCat($cat)
-            ->setUrl($urlPublic.$newFilename);
+            ->setUrl($urlStock.$newFilename);
 
         return $picture;
     }

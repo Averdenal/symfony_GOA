@@ -2,12 +2,19 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
+ * @ApiResource(
+ *     collectionOperations={},
+ *     itemOperations={"get"}
+ * )
  */
 class Post
 {
@@ -15,6 +22,7 @@ class Post
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"show:comment"})
      */
     private $id;
 
@@ -53,6 +61,11 @@ class Post
      * @ORM\ManyToOne(targetEntity=Group::class, inversedBy="posts")
      */
     private $groupe;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $privat;
 
     public function __construct()
     {
@@ -184,6 +197,18 @@ class Post
     public function setGroupe(?Group $groupe): self
     {
         $this->groupe = $groupe;
+
+        return $this;
+    }
+
+    public function getPrivat(): ?bool
+    {
+        return $this->privat;
+    }
+
+    public function setPrivat(bool $privat): self
+    {
+        $this->privat = $privat;
 
         return $this;
     }

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="container mt-4">
+        {{ form_start(form, {'attr': {'class': 'row'}}) }}
+        <div class="col-12">{{ form_row(form.name) }}</div>
+        <div class="col-8">{{ form_row(form.description) }}</div>
+        <div class="col-4">{{ form_row(form.address) }}</div>
+        <div class="col-6">{{ form_row(form.beginAt) }}</div>
+        <div class="col-6">{{ form_row(form.endAt) }}</div>
+
+        <div class="col-12">
+            <input type="submit" class="w-100 btn btn-success" value="enregistrer">
+        </div>
+        {{ form_end(form) }}
+    </div>
+
+{% endblock %}

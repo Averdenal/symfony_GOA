@@ -6,7 +6,7 @@
         <p>The next generation social network & community! Connect with your friends and play with our quests and badges gamification system!</p>
     <div class="d-flex flex-row btn_Action justify-content-center">
         <a href="{{path('app_login')}}" class="btn {% if login is  defined %}bg-light text-dark{% endif %}">login</a>
-        <a href="{{ path('app_register') }}" class="btn {% if register is  defined %}bg-light text-dark{% endif %}">S'enregister</a>
+        <a href="{{ path('app_register') }}" class="btn {% if registrationForm is  defined %}bg-light text-dark{% endif %}">S'enregister</a>
     </div>
     </div>
     <div class="col-6 pr-5 pl-5 d-flex flex-column justify-content-center vh-100" id="right_Zone_Login_Registe">
@@ -25,14 +25,17 @@
                 {% if registerinfo is defined %}
                 <div class="alert alert-warning">{{ registerinfo }}</div>
                 {% endif %}
-                {% if error %}
-                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                {% endif %}
 
                 {% if app.user %}
                     <div class="mb-3">
                         Vous êtes connecté {{ app.user.username }}, <a href="{{ path('app_logout') }}">se déconnecter</a>
                     </div>
+                {% elseif resetForm is defined %}
+                   {% include 'reset_password/reset.html.twig' %}
+                {% elseif  requestForm is defined%}
+                    {% include 'reset_password/request.html.twig' %}
+                {% elseif tokenLifetime is defined %}
+                    {% include 'reset_password/check_email.html.twig' %}
                 {% else %}
 
                 <h1 class="h3 mb-3 font-weight-normal">Se connecter</h1>
@@ -43,14 +46,12 @@
 
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}">
-
-                <div class="checkbox mb-3">
-                    <label>
-                        <input type="checkbox" name="_remember_me"> Ne me quitte plus
-                    </label>
-                </div>
-
-
+                    <div class="row">
+                        <div class="col-6"></div>
+                        <div class="col-6">
+                            <a href="/reset-password">Un trou de mémoire ?</a>
+                        </div>
+                    </div>
                 <button class="btn btn-lg btn-success" type="submit">
                     Connexion
                 </button>

@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PictureRepository")
@@ -31,6 +32,7 @@ class Picture
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"show:comment"})
      */
     private $url;
 

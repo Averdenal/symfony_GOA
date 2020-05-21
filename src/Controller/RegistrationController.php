@@ -42,6 +42,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             )
+                ->setVisite(0)
                 ->setToken($token)
                 ->setCreatedAt(new DateTime('now'))
                 ->setUpdatedAt(new DateTime('now'));
@@ -53,10 +54,6 @@ class RegistrationController extends AbstractController
             $email = (new Email())
                 ->from('no-reply@eliptium.fr')
                 ->to($user->getEmail())
-                //->cc('cc@example.com')
-                //->bcc('bcc@example.com')
-                //->replyTo('fabien@example.com')
-                //->priority(Email::PRIORITY_HIGH)
                 ->subject('Bienvenue sur Getting Out Again!')
                 ->text('Sending emails is fun again!')
                 ->html($this->renderView('emails/registration.html.twig',[

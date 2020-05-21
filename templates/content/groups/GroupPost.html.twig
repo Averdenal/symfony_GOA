@@ -75,7 +75,7 @@
         {% if post.createdBy != app.user %}
             <a class="btn btn-light btn_Action_Reaction">Réactions</a>
         {% endif %}
-        <a class="btn btn-light btn_Action_Commentaires" href="{{ path('post.addComment',{'id':post.id}) }}">Commentaires</a>
+        <a class="btn btn-light btn_Action_Commentaires" href="{{ path('groupe.post',{'id':post.id}) }}">Commentaires</a>
         <!--<button class="btn btn-light btn_Action_Partages">Partages</button>-->
     </div>
     <div id="zone_Reaction_Post_{{ post.id }}" class="col-12 p-2 d-flex justify-content-around align-items-center bg-light none" data-id = {{ post.id }}>

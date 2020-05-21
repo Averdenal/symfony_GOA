@@ -1,0 +1,48 @@
+<div class="row" id="section_News">
+    <aside class="col-3 p-0">
+        {% include 'content/widgets/widget-reseaux.html.twig' %}
+        <div class="aside_Block w-100 mt-2 p-2">
+            <h3>Informations</h3>
+            <p>{{ user.description }}</p>
+        </div>
+    </aside>
+    <div class="col-6">
+        {% if editComment is not defined %}
+            {% if yourFriend is not defined or yourFriend == 'ok'%}
+                {% include 'content/users/add_Post.html.twig' %}
+            {% endif %}
+            <!-- lists posts -->
+            {% for post in user.ProfilePost|reverse %}
+                {% include 'content/users/posts.html.twig' %}
+            {% endfor %}
+        {% else %}
+            {% include 'content/users/posts.html.twig' %}
+        {% endif %}
+    </div>
+    <aside class="col-3 p-0">
+        <!--<div class="aside_Block w-100 mt-2 p-2">
+            <h3>Photos</h3>
+        </div>
+        <div class="aside_Block w-100 mt-2 p-2">
+            <h3>Top Commentaire</h3>
+        </div>-->
+        <div class="aside_Block w-100 mt-2 p-2">
+            <h3>Friends ({{ friends|length }})</h3>
+            <div class="d-flex">
+                {% for friend in friends %}
+                    {% if friend.status == "best friends" or  friend.status == "friends" %}
+                        <a href="{{ path('user.show',{'id':friend.user.id}) }}">
+                            <img class="image_Friends m-1" src="{% if friend.user.pictureProfil is null %}{{ asset('build/img/avatars/2.jpg')}}{% else %}{{ asset(friend.user.pictureProfil.url) }}{% endif %}" alt="">
+                        </a>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="aside_Block w-100 mt-2 p-2">
+            <h3>Upcoming Events</h3>
+            <div class="row w-100">
+
+            </div>
+        </div>
+    </aside>
+</div>

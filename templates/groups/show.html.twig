@@ -19,25 +19,25 @@
                             <p class="info_Stat">Posts</p>
                         </div>
                         <div class="d-flex direction-row">
-                            <button class="btn btn-primary d-flex align-items-center justify-content-center mr-2">
-                                <!--<svg class="icon-quests">
-                                    <use xlink:href="#svg-quests"></use>
-                                </svg>-->
+                            {% if membre %}
+                            <a href="{{ path('groupe.exit',{'id':group.id}) }}" style="width: 50px;height: 50px" class="pt-3 btn btn-danger d-flex align-items-center justify-content-center mr-2">
                                 <svg class="icon-skull">
                                     <use xlink:href="#svg-skull"></use>
                                 </svg>
-                            </button>
+                            </a>
+                            {% endif %}
+                            {% if admin %}
                             <button class="btn btn-warning d-flex align-items-center justify-content-center">
                                 <svg class="icon-more-dots">
                                     <use xlink:href="#svg-more-dots"></use>
                                 </svg>
                             </button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        {% include'content/widgets/sub_menu.html.twig' %}
         <div class="row">
             <aside class="col-3 p-0">
                 <div class="aside_Block w-100 mt-2 p-2">
@@ -53,17 +53,34 @@
                     </div>
                 </div>
                 <div class="aside_Block w-100 mt-2 p-2">
-                    <h3>Photos</h3>
+                    <h3>Membres ({{ group.affGroupes | length }})</h3>
+                    <div>
+                        {% for aff in group.affGroupes | slice(0,10) %}
+                        <a href="{{ path('user.show',{'id':aff.user.id}) }}">
+                            <img class="image_Friends m-1" src="{% if aff.user.pictureProfil is null %}
+                            {{ asset('build/img/avatars/2.jpg')}}
+                            {% else %}
+                            {{ asset(aff.user.pictureProfil.url) }}
+                            {% endif %}" alt="">
+                        </a>
+                        {% endfor %}
+                    </div>
                 </div>
                 <div class="aside_Block w-100 mt-2 p-2">
                     <h3>Top Posts</h3>
                 </div>
             </aside>
             <div class="col-9 pr-0">
-                {% include 'content/groups/add_Post.html.twig' %}
-                {% for post in posts |reverse %}
+                {% if editComment is not defined %}
+                    {% if formPost is not null %}
+                        {% include 'content/groups/add_Post.html.twig' %}
+                    {% endif %}
+                    {% for post in posts | reverse %}
+                        {% include 'content/groups/GroupPost.html.twig' %}
+                    {% endfor %}
+                {% else %}
                     {% include 'content/groups/GroupPost.html.twig' %}
-                {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>

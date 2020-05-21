@@ -5,10 +5,12 @@ namespace App\Controller;
 
 
 use App\Entity\AffGroupe;
+use App\Entity\Comment;
 use App\Entity\Group;
 use App\Entity\Post;
+use App\Form\CommentType;
 use App\Form\GroupType;
-use App\Form\PostType;
+use App\Form\PostGroupType;
 use App\Repository\GroupRepository;
 use DateTime;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -97,7 +99,7 @@ class GroupController extends AbstractController
     }
 
     /**
-     * @Route("/Groupe/show/{id}", name="groupe.show", methods={"GET"})
+     * @Route("/Groupe/{id}", name="groupe.show", methods={"GET"})
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function showGroupe(Group $group)
@@ -106,20 +108,33 @@ class GroupController extends AbstractController
             ->findOneBy(['user'=>$this->getUser(),'groupe'=>$group]);
         $admin = $this->getDoctrine()->getRepository(Group::class)
             ->findOneBy(['createdBy'=>$this->getUser(),'id'=>$group->getId()]);
-        $post= new Post();
-        $form = $this->createForm(PostType::class,$post);
-        if($membre || $admin){
+        /**
+         * si membre du group
+         * si admin du group
+         * si group public
+         */
+        if($membre || $admin || $group->getStatus() == 0){
+            if($membre || $admin){
+                $post= new Post();
+                $form = $this->createForm(PostGroupType::class,$post)->createView();
+            }else{
+                $form = null;
+            }
 
             return $this->render('groups/show.html.twig',[
                 'group'=>$group,
-                'formPost'=>$form->createView(),
-                'posts' => $group->getPosts()
+                'formPost'=>$form,
+                'posts' => $group->getPosts(),
+                'membre' => $membre,
+                'admin' => $admin
             ]);
+        }else{
+            throw $this->createAccessDeniedException();
         }
     }
 
     /**
-     * @Route("/Group/addPost/{id}",name="groupe.addPostUser")
+     * @Route("/Group/addPost/{id}",name="groupe.addPostUser", methods={"POST"})
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      * @param Request $request
      * @param Group $group
@@ -130,15 +145,70 @@ class GroupController extends AbstractController
             ->findOneBy(['groupe'=>$group,'user'=>$user]);
         if($groupeMember || $group->getCreatedBy()== $user){
             $post = new Post();
-            $form = $this->createForm(PostType::class,$post);
+            $form = $this->createForm(PostGroupType::class,$post);
             $form->handleRequest($request);
             if($form->isSubmitted() && $form->isValid()){
                 $post->setGroupe($group)
                     ->setCreatedBy($user)
-                    ->setCreatedAt(new DateTime('now'));
+                    ->setCreatedAt(new DateTime('now'))
+                    ->setPrivat(false);
                 $group->addPost($post);
-                $this->getDoctrine()->getManager()->flush();
+                $em = $this->getDoctrine()->getManagerForClass(Group::class);
+                $em->persist($group);
+                $em->flush();
             }
         }
+        return $this->redirectToRoute('groupe.show',[
+            'id'=> $group->getId()
+        ]);
+    }
+
+    /**
+     * @Route("/Groupe/exit/{id}", name="groupe.exit")
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function exitGroup(Group $group)
+    {
+        $aff = $this->getDoctrine()->getRepository(AffGroupe::class)->findOneBy([
+            'user'=>$this->getUser(),
+            'groupe'=>$group
+        ]);
+        if($aff){
+            $em = $this->getDoctrine()->getManagerForClass(AffGroupe::class);
+            $em->remove($aff);
+            $em->flush();
+        }
+         return $this->redirectToRoute('groups.allGroupePublic');
+    }
+
+    /**
+     * @Route("/group/post/{id}",name="groupe.post")
+     * @param Post $post
+     * @return Response
+     */
+    public function showCommentPostGroup(Post $post)
+    {
+        $member = false;
+        foreach ($this->getUser()->getAffGroupes() as $affGroupe){
+            if($affGroupe->getGroupe() == $post->getGroupe()){
+                $member = true;
+            }
+        }
+        if($post->getCreatedBy() == $this->getUser() || $member ) {
+            $comment = new Comment();
+            $form = $this->createForm(CommentType::class, $comment);
+
+            return $this->render('groups/show.html.twig',[
+                'group'=>$post->getGroupe(),
+                'formPost'=>$form->createView(),
+                'post' => $post,
+                "formComment" => $form->createView(),
+                "editComment" =>true
+
+            ]);
+
+
+        }
+        throw $this->createAccessDeniedException();
     }
 }

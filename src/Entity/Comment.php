@@ -2,10 +2,32 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
+ * @ApiResource(
+ *      attributes={
+ *          "order"={"createdAt":"DESC"}
+ *      },
+ *      paginationItemsPerPage=5,
+ *      normalizationContext={"groups"={"show:comment"}},
+ *      collectionOperations={
+ *          "get",
+ *          "post"={
+ *              "security"="is_granted('IS_AUTHENTICATED_FULLY')",
+                "controller"=App\Controller\api\AddCommentApiController::class
+ *          }
+ *      },
+ *      itemOperations={"get"}
+ * )
+ * @ApiFilter(
+ *     SearchFilter::class, properties={"post":"exact"}
+ * )
  */
 class Comment
 {
@@ -19,22 +41,26 @@ class Comment
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"show:comment"})
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Post", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"show:comment"})
      */
     private $post;
 
     /**
      * @ORM\Column(type="text")
+     * @Groups({"show:comment"})
      */
     private $content;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({"show:comment"})
      */
     private $createdAt;
 

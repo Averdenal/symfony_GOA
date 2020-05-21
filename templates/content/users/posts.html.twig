@@ -72,11 +72,13 @@
                 </div>
 
             </div>
-            {% if post.createdBy != app.user %}
-                <a class="btn btn-light btn_Action_Reaction">Réactions</a>
+            {% if app.user == post.createdBy or yourFriend is not defined or yourFriend == 'ok' %}
+                {% if post.createdBy != app.user %}
+                    <a class="btn btn-light btn_Action_Reaction">Réactions</a>
+                {% endif %}
+                    <a class="btn btn-light btn_Action_Commentaires" href="{{ path('post.showComment',{'id':post.id}) }}">Commentaires ({{ post.comments | length }})</a>
+                <!--<button class="btn btn-light btn_Action_Partages">Partages</button>-->
             {% endif %}
-            <a class="btn btn-light btn_Action_Commentaires" href="{{ path('post.addComment',{'id':post.id}) }}">Commentaires</a>
-            <!--<button class="btn btn-light btn_Action_Partages">Partages</button>-->
         </div>
         <div id="zone_Reaction_Post_{{ post.id }}" class="col-12 p-2 d-flex justify-content-around align-items-center bg-light none" data-id = {{ post.id }}>
             <a class="action_Reaction" data-id="1" href=""><img class="img_Reaction" src="{{ asset('build/img/reaction/like.png') }}" alt=""></a>

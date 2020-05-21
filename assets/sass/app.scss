@@ -22,6 +22,8 @@ $font-secondary: 'Titillium Web', sans-serif;
 @import "badges/card_badges";
 @import "groups/card_Groups";
 @import "search";
+@import "user/friend_Card";
+@import "switchbox";
 
 @import "login_register/login_register";
 
@@ -66,6 +68,7 @@ p{
 .body{
   padding-top: 70px;
   background-color: $gray-lighter;
+  min-height: 100vh;
 }
 .Search_Bar{
   form{

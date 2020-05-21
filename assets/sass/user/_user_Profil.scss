@@ -1,3 +1,13 @@
+.btn_edit_user{
+  &:focus{
+    outline: none!important;
+  }
+
+  &:hover, &.actif{
+    border-bottom: 5px solid $blue;
+  }
+}
+
 #user_Info_Unique{
   .top_Block {
     border-radius: 15px;
@@ -54,6 +64,9 @@
           svg{
             margin-right: 10px;
           }
+        }
+        .btn_Sectting{
+          width: 50px;
         }
       }
     }

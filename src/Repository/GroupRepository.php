@@ -19,6 +19,14 @@ class GroupRepository extends ServiceEntityRepository
         parent::__construct($registry, Group::class);
     }
 
+    public function findByWord($keyword){
+        $query = $this->createQueryBuilder('a')
+            ->where('a.name LIKE :key')
+            ->setParameter('key' , '%'.$keyword.'%')->getQuery();
+
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Group[] Returns an array of Group objects
     //  */

@@ -2,28 +2,28 @@
 
 namespace App\Form;
 
-use App\Entity\Badge;
+use App\Entity\Post;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BadgeType extends AbstractType
+class PostGroupType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('imagefile',FileType::class)
-            ->add('title')
-            ->add('exp')
-            ->add('description')
+            ->add('content',TextareaType::class,[
+                'label'=>false
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Badge::class,
+            'data_class' => Post::class,
         ]);
     }
 }

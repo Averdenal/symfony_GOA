@@ -1,0 +1,22 @@
+<div class="row none" id="section_Groups">
+    <div class="col-12">
+        <h2>Les Groups</h2>
+        <p>ici tu retrouve tes groupes</p>
+    </div>
+    {% if adminGroups is defined %}
+    <h3 class="ml-4 mt-4">Donc tu es créateur ({{ adminGroups | length }})</h3>
+    <div class="col-12 m-0 row">
+        {% for group in adminGroups %}
+            {% include 'content/groups/card_group.html.twig' %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% if groups is defined %}
+    <h3 class="ml-4 m-0">Donc tu es membre ({{ groups | length }})</h3>
+    <div class="col-12">
+      {% for group in groups %}
+        {% include 'content/groups/card_group.html.twig' %}
+      {% endfor %}
+    </div>
+    {% endif %}
+</div>

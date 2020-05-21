@@ -29,7 +29,24 @@
   }
 }
 .sub_Menu_Page{
+  overflow: hidden;
   svg{
     fill: $gray-dark;
   }
+  a{
+    &.actif{
+      border-bottom: 4px solid $blue;
+      svg{
+        fill: $blue;
+      }
+    }
+    height: 60px;
+    &:hover{
+      svg{
+        fill: $blue;
+      }
+      border-bottom: 5px solid $blue;
+    }
+  }
+
 }

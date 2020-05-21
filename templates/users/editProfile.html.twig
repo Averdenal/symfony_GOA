@@ -2,9 +2,40 @@
 
 {% block body %}
     {% if is_granted('ROLE_USER') %}
-    <div class="p-4">
-        {{ form_start(form) }}
-        <input type="submit" value="Editer">
+    <div class="container mt-4">
+        {{ form_start(form,{'attr': {'class': 'row'}})  }}
+            <div class="col-3">
+                <button class="btn btn_edit_user w-100" id="btn_Edit_Section_Infos">information user</button>
+                <button class="btn btn_edit_user w-100" id="btn_Edit_Section_Link">les réseaux</button>
+                <hr>
+                <input type="submit" value="Editer" class="btn btn-success w-100">
+            </div>
+            <div class="col-9" id="edit_Section_Infos">
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        {{ form_row(form.pictureProfil) }}
+                    </div>
+                    <div class="col-4">
+                        {{ form_row(form.banner) }}
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">{{ form_row(form.firstname) }}</div>
+                    <div class="col-6">{{ form_row(form.lastname) }}</div>
+                </div>
+                <div class="row">
+                    <div class="col-12">{{ form_row(form.description) }}</div>
+                </div>
+            </div>
+            <div class="col-9 none" id="edit_Section_Link">
+                {{ form_row(form.linkFacebook) }}
+                {{ form_row(form.linkTwitter) }}
+                {{ form_row(form.linkInstagram) }}
+                {{ form_row(form.linkYoutube) }}
+                {{ form_row(form.linkTwitch) }}
+                {{ form_row(form.linkDiscord) }}
+            </div>
         {{ form_end(form) }}
     </div>
     {% else %}

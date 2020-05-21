@@ -1,76 +1,61 @@
 <div class="aside_Block w-100 mt-2 p-3 widget container">
     <h3>Réseaux</h3>
     <div class="row social-links ml-2 mr-2 justify-content-center align-items-center d-flex">
-        {% if app.user.linkFacebook is not null %}
+        {% if user.linkFacebook is not null %}
             <div class="social-link facebook ">
-                <a href="{{ app.user.linkFacebook }}" target="_blank" class="d-flex justify-content-center align-items-center">
+                <a href="{{ user.linkFacebook }}" target="_blank" class="d-flex justify-content-center align-items-center">
                     <svg class="social-link-icon icon-facebook">
                         <use xlink:href="#svg-facebook"></use>
                     </svg>
                 </a>
             </div>
         {% endif %}
-        {% if app.user.linkTwitter is not null %}
+        {% if user.linkTwitter is not null %}
             <div class="social-link twitter">
-                <a href="{{ app.user.linkTwitter }}" target="_blank" class="d-flex justify-content-center align-items-center">
+                <a href="{{ user.linkTwitter }}" target="_blank" class="d-flex justify-content-center align-items-center">
                     <svg class="social-link-icon icon-twitter">
                         <use xlink:href="#svg-twitter"></use>
                     </svg>
                 </a>
             </div>
         {% endif %}
-        {% if app.user.linkInstagram is not null %}
+        {% if user.linkInstagram is not null %}
             <div class="social-link instagram">
-                <a href="{{ app.user.linkInstagram }}" target="_blank" class="d-flex justify-content-center align-items-center">
+                <a href="{{ user.linkInstagram }}" target="_blank" class="d-flex justify-content-center align-items-center">
                     <svg class="social-link-icon icon-instagram">
                         <use xlink:href="#svg-instagram"></use>
                     </svg>
                 </a>
             </div>
         {% endif %}
-        {% if app.user.linkTwitch is not null %}
+        {% if user.linkTwitch is not null %}
             <div class="social-link twitch">
-                <a href="{{ app.user.linkTwitch }}" target="_blank" class="d-flex justify-content-center align-items-center">
+                <a href="{{ user.linkTwitch }}" target="_blank" class="d-flex justify-content-center align-items-center">
                     <svg class="social-link-icon icon-twitch">
                         <use xlink:href="#svg-twitch"></use>
                     </svg>
                 </a>
             </div>
         {% endif %}
-        <!--<div class="social-link artstation">
-            <a href="#" target="_blank" class="d-flex justify-content-center align-items-center">
-                <svg class="social-link-icon icon-artstation">
-                    <use xlink:href="#svg-artstation"></use>
-                </svg>
-            </a>
-        </div>-->
-        {% if app.user.linkYoutube is not null %}
+        {% if user.linkYoutube is not null %}
         <div class="social-link youtube">
-            <a href="{{ app.user.linkYoutube }}" target="_blank" class="d-flex justify-content-center align-items-center">
+            <a href="{{ user.linkYoutube }}" target="_blank" class="d-flex justify-content-center align-items-center">
                 <svg class="social-link-icon icon-youtube">
                     <use xlink:href="#svg-youtube"></use>
                 </svg>
             </a>
         </div>
         {% endif %}
-        {% if app.user.linkDiscord is not null %}
+        {% if user.linkDiscord is not null %}
         <div class="social-link discord">
-            <a href="{{ app.user.linkDiscord }}" target="_blank" class="d-flex justify-content-center align-items-center">
+            <a href="{{ user.linkDiscord }}" target="_blank" class="d-flex justify-content-center align-items-center">
                 <svg class="social-link-icon icon-discord">
                     <use xlink:href="#svg-discord"></use>
                 </svg>
             </a>
         </div>
         {% endif %}
-        <!--
-            <div class="social-link patreon">
-                <a href="#" target="_blank" class="d-flex justify-content-center align-items-center">
-                    <svg class="social-link-icon icon-patreon">
-                        <use xlink:href="#svg-patreon"></use>
-                    </svg>
-                </a>
-            </div>
-        -->
+
     </div>
     <div class="row">
         <div class="col-2"></div>

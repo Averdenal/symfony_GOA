@@ -4,28 +4,24 @@
 namespace App\Controller;
 
 
+use App\Entity\AffGroupe;
 use App\Entity\Comment;
 use App\Entity\Friends;
+use App\Entity\Group;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\PostType;
-use App\Form\UserEmailType;
 use App\Form\UserType;
-use App\Repository\UserRepository;
+use App\Repository\FriendsRepository;
 use DateTime;
-use Doctrine\ORM\EntityManager;
 use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 
 /**
@@ -48,115 +44,6 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/abs/{id}",name="demo.demo")
-     * @IsGranted("ROLE_ADMIN")
-     */
-    public function getDelete(User $user)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $em->remove($user);
-        $em->flush();
-
-    }
-
-    /**
-     * @Route("/valide/{id}",name="user.valide")
-     * @param User $user
-     */
-    public function valideUser(User $user)
-    {
-        if($_GET['token'] == $user->getToken()){
-            $user->setToken('');
-            $user->addRole("ROLE_USER");
-            $em = $this->getDoctrine()->getManagerForClass(User::class);
-            $em->persist($user);
-            $em->flush();
-            return $this->redirectToRoute('home');
-        }else{
-            throw $this->createAccessDeniedException('le token n\'est pas correct ou le compte est déjà actif');
-        }
-
-    }
-
-    /**
-     * @Route("/resetPwd",name="user.needResetPassword")
-     * @param MailerInterface $mailer
-     * @throws TransportExceptionInterface
-     */
-    public function forgotPassword(Request $request, MailerInterface $mailer)
-    {
-        if ($request->get('email')) {
-            $em= $this->getDoctrine()->getRepository(User::class);
-            $user = $em->findOneBy([
-                'email' =>$request->get('email')
-            ]);
-            $manager = $this->getDoctrine()->getManager();
-            $token = 'c'.md5($user->getEmail().random_bytes(4).$user->getPseudo());
-            $user->setToken($token);
-            $manager->persist($user);
-            $manager->flush();
-
-            $email = (new Email())
-                ->from('no-reply@eliptium.fr')
-                ->to($user->getEmail())
-                ->subject('Reset password - Getting Out Again!')
-                ->html($this->renderView('emails/forgetPassword.html.twig',[
-                    'token' => $user->getToken(),
-                    'username' => $user->getPseudo(),
-                    'address' => $user->getEmail(),
-                    'user' => $user->getId()
-
-                ]));
-            $mailer->send($email);
-            return $this->render('users/forgetPassword.html.twig',[
-                "message" => "Demande envoyer, tu vas reçevoir un email pour le changement"
-            ]);
-        }
-
-        return $this->render('users/forgetPassword.html.twig',[
-            'titlePage' => 'Un trous de mémoire ?'
-        ]);
-    }
-
-    /**
-     * @Route("/changepwd",name="user.forgetpwd", methods={"POST","GET"})
-     * @param Request $request
-     * @param UserPasswordEncoderInterface $passwordEncoder
-     * @return Response
-     */
-    public function resetPassword(Request $request, UserPasswordEncoderInterface $passwordEncoder)
-    {
-        if($request->get('email')&& $request->get('password')&&$request->get('id')){
-            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email'=>$request->get('email')]);
-            if($user->getId() == $request->get('id')){
-                $user->setPassword(
-                    $passwordEncoder->encodePassword(
-                        $user,
-                        $request->get('password')
-                    )
-                );
-                $em = $this->getDoctrine()->getManager();
-                $em->persist($user);
-                $em->flush();
-                return $this->json(['user'=> $user->getPseudo(),'changement'=>'ok']);
-            }else{
-                dd('id error');
-            }
-
-        }else{
-            $token = $_GET['token'];
-            $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['token'=>$token]);
-            if($user){
-                return $this->render('security/newPassword.html.twig',[
-                    'user' => $user
-                ]);
-            }else{
-                throw $this->createAccessDeniedException();
-            }
-        }
-    }
-
-    /**
      * @Route("/profil",name="user.profil")
      * @param Request $request
      * @return Response
@@ -165,19 +52,27 @@ class UserController extends AbstractController
      */
     public function profilConnectUser(Request $request):Response
     {
+
         if($this->security->isGranted('ROLE_USER')){
+            $groups = [];
             $post = new Post();
-            $comment = new Comment();
 
             $form = $this->createForm(PostType::class,$post);
-            $formComment = $this->createForm(CommentType::class,$comment);
+            foreach ($this->getDoctrine()->getRepository(AffGroupe::class)->findBy([
+                'user'=>$this->getUser()
+            ]) as $value){
+                $groups[] = $value->getGroupe();
+            }
 
             return $this->render('users/profile.html.twig',[
                 "current_menu" => "profil",
                 "user" => $this->getUser(),
                 "formPost" => $form->createView(),
                 "friends" => $this->findFriendsUser($this->getUser()),
-                "formComment"=> $formComment->createView(),
+                "groups"=> $groups,
+                "adminGroups"=>$this->getDoctrine()->getRepository(Group::class)->findBy([
+                    'createdBy'=>$this->getUser()
+                ]),
             ]);
         }else{
             throw $this->createAccessDeniedException('Vous devez validez votre mail pour voir cette section');
@@ -193,8 +88,17 @@ class UserController extends AbstractController
      */
     public function profil(User $user):Response
     {
+
         $yourFriend = $this->getDoctrine()->getRepository(Friends::class)->isFriend($this->getUser(),$user);
         if($user != $this->getUser()){
+            $groups = [];
+            foreach ($this->getDoctrine()->getRepository(AffGroupe::class)->findBy([
+                'user'=>$user
+            ]) as $value){
+                $groups[] = $value->getGroupe();
+            }
+            $user->setVisite($user->getVisite() + 1);
+            $this->getDoctrine()->getManagerForClass(User::class)->flush();
             $post = new Post();
             $comment = new Comment();
             $form = $this->createForm(PostType::class,$post);
@@ -205,7 +109,11 @@ class UserController extends AbstractController
                 "formPost" => $form->createView(),
                 "formComment"=> $formComment->createView(),
                 "friends" => $this->findFriendsUser($user),
-                "yourFriend"=>$yourFriend
+                "yourFriend"=>$yourFriend,
+                "groups"=>$groups,
+                "adminGroups"=>$this->getDoctrine()->getRepository(Group::class)->findBy([
+                    'createdBy'=>$user
+                ])
 
             ]);
         }else{
@@ -213,12 +121,13 @@ class UserController extends AbstractController
         }
     }
     /**
-     * @Route("/profil/edit/{id}",name="user.edit")
+     * @Route("/profil/edit/",name="user.edit")
      * @return Response
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function editProfil(Request $request,User $user):Response
+    public function editProfil(Request $request):Response
     {
+        $user = $this->getUser();
         if($user == $this->getUser()){
 
             $form = $this->createForm(UserType::class,$user);
@@ -226,23 +135,21 @@ class UserController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
 
-            $bannerUrl = '../assets/img/banners';
-            $bannerUrlPublic = 'build/img/banners/';
+            $bannerUrl = 'assets/img/banners/';
 
-            $pictureProfileUrl = '../assets/img/banners';
-            $pictureProfileUrlPublic = 'build/img/banners/';
+            $pictureProfileUrl = 'assets/img/avatar/';
 
             $pictureBanner = $form->get('pictureProfil')->getData();
             if($pictureBanner){
                 $repositoryPicture = $this->getDoctrine()->getRepository('App:Picture');
-                $picture = $repositoryPicture->createPictureByFile($pictureBanner,$pictureProfileUrl,$pictureProfileUrlPublic,'Avatar');
+                $picture = $repositoryPicture->createPictureByFile($pictureBanner,$pictureProfileUrl,'Avatar');
                 $user->setPictureProfil($picture);
             }
 
             $pictureBanner = $form->get('banner')->getData();
             if($pictureBanner){
                 $repositoryPicture = $this->getDoctrine()->getRepository('App:Picture');
-                $picture = $repositoryPicture->createPictureByFile($pictureBanner,$bannerUrl,$bannerUrlPublic,'Banner');
+                $picture = $repositoryPicture->createPictureByFile($pictureBanner,$bannerUrl,'Banner');
                 $user->setBanner($picture);
             }
 
@@ -262,14 +169,52 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/add/Comment/{id}",name="post.addComment", methods={"POST","GET"})
-     * @param Request $request
+     * @Route("/profil/post/{id}",name="post.showComment", methods={"GET"})
      * @param Post $post
      * @return Response
      * @throws Exception
      * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
-    public function addComment(Request $request,Post $post)
+    public function showPostComment(Post $post)
+    {
+        if($post->getCreatedBy() == $this->getUser() ||
+            $post->getProfile() == $this->getUser() ||
+            $this->getDoctrine()->getRepository(Friends::class)->isFriend($this->getUser(),$post->getCreatedBy()) == 'ok') {
+            $comment = new Comment();
+            $form = $this->createForm(CommentType::class, $comment);
+            $groups = [];
+            foreach ($this->getDoctrine()->getRepository(AffGroupe::class)->findBy([
+                'user'=>$this->getUser()
+            ]) as $value){
+                $groups[] = $value->getGroupe();
+            }
+
+            return $this->render('users/profile.html.twig',[
+                "current_menu" => "profil",
+                "user" =>$post->getProfile(),
+                "formComment" => $form->createView(),
+                "post" => $post,
+                "editComment" =>true,
+                "yourFriend"=>"ok",
+                "friends" => $this->findFriendsUser($post->getProfile()),
+                "groups"=>$groups,
+                "adminGroups"=>$this->getDoctrine()->getRepository(Group::class)->findBy([
+                    'createdBy'=>$post->getProfile()
+                ])
+            ]);
+
+        }
+        throw $this->createAccessDeniedException();
+    }
+
+    /**
+     * @Route("/add/Comment/{id}",name="post.addComment", methods={"POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param Request $request
+     * @param Post $post
+     * @return JsonResponse
+     */
+    public function addCommentPost(Request $request, Post $post)
     {
         if($post->getCreatedBy() == $this->getUser() ||
             $post->getProfile() == $this->getUser() ||
@@ -285,19 +230,11 @@ class UserController extends AbstractController
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($post);
                 $entityManager->flush();
+                return $this->json(['status'=>'ok','comment'=>$comment->getContent()]);
             }
-
-            return $this->render('users/profile.html.twig',[
-                "current_menu" => "profil",
-                "user" =>$post->getProfile(),
-                "formComment" => $form->createView(),
-                "post" => $post,
-                "editComment" =>true,
-                "yourFriend"=>"ok",
-                "friends" => $this->findFriendsUser($post->getProfile()),
-            ]);
-
+            return $this->json(['status'=>'nok']);
         }
+        throw $this->createAccessDeniedException("n'est pas autorisé a ajouter un commentaire");
     }
 
     /**
@@ -321,7 +258,7 @@ class UserController extends AbstractController
     }
 
 
-    private function findFriendsUser($value)
+    public function findFriendsUser($value)
     {
         $friends = $this->getDoctrine()->getRepository('App:Friends')->findFriends($value);
         $friendsValide = [];
@@ -349,5 +286,62 @@ class UserController extends AbstractController
         }
         return $tab;
 
+    }
+
+    /**
+     * @Route("/friend/add/{id}", name="friend.add")
+     * @param User $user
+     * @param FriendsRepository $repository
+     * @return JsonResponse
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function addFriends(User $user,FriendsRepository $repository):Response
+    {
+        $addFriendByMe = $repository->findOneBy(['user1'=>$this->getUser(),'user2'=>$user]);
+        $addFriendByHim = $repository->findOneBy(['user2'=>$this->getUser(),'user1'=>$user]);
+        $f = new Friends();
+
+        if(!$addFriendByMe && !$addFriendByHim){
+            if($this->getUser()!= $user){
+                $f->setUser2($user);
+                $this->getUser()->addFriend($f);
+                $this->getDoctrine()->getManager()->flush();
+                return $this->json('add Friend');
+            }else{
+                return $this->json('Friends avec toi? chelou non ?');
+            }
+
+        }else{
+            if($addFriendByHim && $addFriendByHim->getStatus() == $f::statusaff[0]){
+                $status = $f::statusaff;
+                $addFriendByHim->setStatus($status[1]);
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($addFriendByHim);
+                $entityManager->flush();
+                return $this->json('Friend active');
+            }
+            return $this->json('impossible');
+        }
+
+    }
+    /**
+     * @Route("/friend/delete/{id}", name="friend.delete",methods={"DELETE"})
+     * @param User $user
+     * @param FriendsRepository $repository
+     * @return JsonResponse
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     */
+    public function deleteFriends(User $user,FriendsRepository $repository):Response
+    {
+        $addFriendByMe = $repository->findOneBy(['user1'=>$this->getUser(),'user2'=>$user]);
+        $addFriendByHim = $repository->findOneBy(['user2'=>$this->getUser(),'user1'=>$user]);
+        if($addFriendByMe){
+            $this->getUser()->removeFriend($addFriendByMe);
+        }
+        if($addFriendByHim){
+            $this->getUser()->removeFriendsAddMe($addFriendByHim);
+        }
+        $this->getDoctrine()->getManager()->flush();
+        return $this->json('delete ok');
     }
 }

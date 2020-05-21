@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
@@ -19,6 +20,7 @@ class User implements UserInterface,\Serializable
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"show:comment"})
      */
     private $id;
 
@@ -40,16 +42,19 @@ class User implements UserInterface,\Serializable
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"show:comment"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"show:comment"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({"show:comment"})
      */
     private $pseudo;
 
@@ -105,6 +110,7 @@ class User implements UserInterface,\Serializable
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Picture", cascade={"persist"})
+     * @Groups({"show:comment"})
      */
     private $pictureProfil;
 
@@ -134,14 +140,19 @@ class User implements UserInterface,\Serializable
     private $friendsAddMe;
 
     /**
-     * @ORM\Column(type="text",length=255, nullable=true)
-     */
-    private $token;
-
-    /**
      * @ORM\OneToMany(targetEntity=AffGroupe::class, mappedBy="user")
      */
     private $affGroupes;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $visite;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Event::class, mappedBy="orga", orphanRemoval=true)
+     */
+    private $orgaevents;
 
 
     public function __construct()
@@ -152,6 +163,7 @@ class User implements UserInterface,\Serializable
         $this->friends = new ArrayCollection();
         $this->friendsAddMe = new ArrayCollection();
         $this->affGroupes = new ArrayCollection();
+        $this->orgaevents = new ArrayCollection();
     }
 
     /**
@@ -605,18 +617,6 @@ class User implements UserInterface,\Serializable
         return $this;
     }
 
-    public function getToken(): ?string
-    {
-        return $this->token;
-    }
-
-    public function setToken(?string $token): self
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
     /**
      * @return Collection|AffGroupe[]
      */
@@ -639,9 +639,48 @@ class User implements UserInterface,\Serializable
     {
         if ($this->affGroupes->contains($affGroupe)) {
             $this->affGroupes->removeElement($affGroupe);
+        }
+
+        return $this;
+    }
+
+    public function getVisite(): ?int
+    {
+        return $this->visite;
+    }
+
+    public function setVisite(?int $visite): self
+    {
+        $this->visite = $visite;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Event[]
+     */
+    public function getOrgaevents(): Collection
+    {
+        return $this->orgaevents;
+    }
+
+    public function addOrgaevent(Event $orgaevent): self
+    {
+        if (!$this->orgaevents->contains($orgaevent)) {
+            $this->orgaevents[] = $orgaevent;
+            $orgaevent->setOrga($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrgaevent(Event $orgaevent): self
+    {
+        if ($this->orgaevents->contains($orgaevent)) {
+            $this->orgaevents->removeElement($orgaevent);
             // set the owning side to null (unless already changed)
-            if ($affGroupe->getUser() === $this) {
-                $affGroupe->setUser(null);
+            if ($orgaevent->getOrga() === $this) {
+                $orgaevent->setOrga(null);
             }
         }
 

@@ -3,6 +3,7 @@
 
 {% block body %}
     <div class="container mt-4 pb-4" id="user_Info_Unique">
+        <!--  top profil -->
         <div class="row">
             <div class="col-12 top_Block p-0">
                 <figure class="mb-0">
@@ -12,15 +13,15 @@
                 <div class="info_User p-4 bg-light d-flex align-items-center justify-content-around">
                     <div class="align-items-center d-flex align-items-center justify-content-around flex_1">
                         <div class="d-flex align-items-center flex-column col-3">
-                            <p>35k</p>
+                            <p>{{ user.visite -}}</p>
                             <p class="cat_Info_User">Visites</p>
                         </div>
                         <div class="d-flex align-items-center flex-column col-3">
-                            <p>350</p>
+                            <p>{{ user.getPosts | length }}</p>
                             <p class="cat_Info_User">Posts</p>
                         </div>
                         <div class="d-flex align-items-center flex-column col-3">
-                            <p>1k</p>
+                            <p>{{ friends | length }}</p>
                             <p class="cat_Info_User">Friends</p>
                         </div>
                         <div class="d-flex align-items-center flex-column col-3">
@@ -81,62 +82,50 @@
                                     Message
                                 </button>
                                 {% endif %}
+                        {% else %}
+                            <a href="{{ path('user.edit') }}" class="btn btn-warning btn_Sectting">
+                                <svg class="icon-settings">
+                                    <use xlink:href="#svg-settings"></use>
+                                </svg>
+                            </a>
                         {% endif %}
                     </div>
                     <div class="badge_User_profil d-flex justify-content-end align-items-center flex_1">
-                        <img src="{{ asset('build/img/badge/admin-b.png') }}" alt="" class="badge_User_icon ml-2">
-                        <img src="{{ asset('build/img/badge/admin-b.png') }}" alt="" class="badge_User_icon ml-2">
-                        <img src="{{ asset('build/img/badge/admin-b.png') }}" alt="" class="badge_User_icon ml-2">
-                        <img src="{{ asset('build/img/badge/admin-b.png') }}" alt="" class="badge_User_icon ml-2">
+
                     </div>
                 </div>
             </div>
         </div>
+        <!--  /top profil -->
+
+        <!--  sub menu  -->
         {% include'content/widgets/sub_menu.html.twig' %}
-        <div class="row" id="section_News">
-            <aside class="col-3 p-0">
-                {% include 'content/widgets/widget-reseaux.html.twig' %}
-                <div class="aside_Block w-100 mt-2 p-2">
-                    <h3>Informations</h3>
-                    <p>{{ user.description }}</p>
-                </div>
-                <div class="aside_Block w-100 mt-2 p-2">
-                    <h3>Upcoming Events</h3>
-                </div>
-            </aside>
-            <div class="col-6">
-                {% if editComment is not defined %}
-                    {% if yourFriend is not defined or yourFriend == 'ok'%}
-                        {% include 'content/users/add_Post.html.twig' %}
-                    {% endif %}
-                    <!-- lists posts -->
-                    {% for post in user.ProfilePost|reverse %}
-                        {% include 'content/users/posts.html.twig' %}
-                    {% endfor %}
-                {% else %}
-                    {% include 'content/users/posts.html.twig' %}
-                {% endif %}
-            </div>
-            <aside class="col-3 p-0">
-                <div class="aside_Block w-100 mt-2 p-2">
-                    <h3>Photos</h3>
-                </div>
-                <div class="aside_Block w-100 mt-2 p-2">
-                    <h3>Top Commentaire</h3>
-                </div>
-                <div class="aside_Block w-100 mt-2 p-2">
-                    <h3>Friends ({{ friends|length }})</h3>
-                        <div class="d-flex">
-                            {% for friend in friends %}
-                                {% if friend.status == "best friends" or  friend.status == "friends" %}
-                                    <a href="{{ path('user.show',{'id':friend.user.id}) }}">
-                                        <img class="image_Friends m-1" src="{% if friend.user.pictureProfil is null %}{{ asset('build/img/avatars/2.jpg')}}{% else %}{{ asset(friend.user.pictureProfil.url) }}{% endif %}" alt="">
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                </div>
-            </aside>
-        </div>
+        <!--  /sub menu  -->
+
+        <!-- section news -->
+        {% include 'users/sections/section-news.html.twig' %}
+        <!-- /section news -->
+
+        <!-- section infos  -->
+        {% include 'users/sections/section-infos.html.twig' %}
+        <!-- /section infos -->
+
+        <!-- section friends  -->
+        {% include 'users/sections/section-friends.html.twig' %}
+        <!-- /section friends -->
+
+        <!-- section pictures  -->
+        {% include 'users/sections/section-pictures.html.twig' %}
+        <!-- /section pictures -->
+
+        <!-- section groups -->
+        {% include 'users/sections/section-groups.html.twig' %}
+        <!-- /section groups -->
+
+        <!-- section events -->
+        {% include 'users/sections/section-events.html.twig' %}
+        <!-- /section events -->
+
+
     </div>
 {% endblock %}

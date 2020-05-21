@@ -5,6 +5,13 @@
     </div>
     {{ form_start(formPost,{'action': path('post.addPostProfilUser',{'id':user.id})})}}
     {{ form_row(formPost.content) }}
-    <input type="submit" value="Post" class="btn btn-success w100">
+    <div class="row">
+        <div class="col-12">
+            <input type="submit" value="Post" class="btn btn-success w-100">
+
+            {{ form_row(formPost.privat) }}
+        </div>
+    </div>
+
     {{ form_end(formPost) }}
 </div>

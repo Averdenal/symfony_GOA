@@ -8,9 +8,17 @@ class Search {
         })
 
         function log( ui ) {
-
+            var groups = [];
+            var user =[];
+            ui.content.forEach(function (element) {
+                if(element['cat'] === "groups"){
+                    groups.push(element);
+                }else if(element['cat'] === "users"){
+                    user.push(element)
+                }
+            });
             for (var i = 0; i<ui.content.length;i++){
-                var info = $('<li><a class="section_Search_User" href="/profil/show/'+ui.content[i].value+'">'+ui.content[i].label+'</a></li>' );
+                var info = $('<li>'+ui.content[i].cat+' <a class="section_Search_User" href="/profil/show/'+ui.content[i].value+'">'+ui.content[i].label+'</a></li>' );
                 info.prependTo( "#search_Bar_Result_Info" );
             }
         }
@@ -28,3 +36,4 @@ class Search {
         });
     }
 }
+module.exports = Search;

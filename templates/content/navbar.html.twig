@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark position-fixed w-100 nav_10000">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="{{ path('home') }}">
         <img src="{{ asset('build/img/logo/logo.png') }}" alt="" class="logo_top">
         Getting Out Again</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,31 +9,14 @@
     <div class="collapse navbar-collapse row" id="navbarSupportedContent">
         <div class="col-3">
             <ul class="navbar-nav mr-auto row">
-                <li class="nav-item col-3 text-center">
-                    <a class="nav-link" href="{{ path('home')}}">
-                        <svg class="icon-grid">
-                            <use xlink:href="#svg-grid"></use>
-                        </svg>
-                    </a>
-                </li>
-                <li class="nav-item col-3 text-center">
-                    <a class="nav-link" href="{{ path('home')}}">Home</a>
-                </li>
-                <li class="nav-item col-3 text-center">
+                <li class="nav-item col-4 text-center">
                     <a class="nav-link {% if current_menu is defined and current_menu == 'profil' %}active{% endif %}" href="{{ path('user.profil') }}">Profil</a>
                 </li>
-                <li class="nav-item dropdown col-3 text-center">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        ...
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="{{ path('etablissements.getAllEtablissement')}}">Etablissements</a>
-                        <a class="dropdown-item" href="{{ path('groups.allGroupePublic')}}">Groupes</a>
-                        <a class="dropdown-item" href="{{ path('badges.allBadges')}}">Badges</a>
-                        <a class="dropdown-item" href="{{ path('events.allEvents')}}">Events</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">A Propos</a>
-                    </div>
+                <li class="nav-item col-4 text-center">
+                    <a class="nav-link {% if current_menu is defined and current_menu == 'groups' %}active{% endif %}" href="{{ path('groups.allGroupePublic')}}">Groupes</a>
+                </li>
+                <li class="nav-item col-4 text-center">
+                    <a class="nav-link {% if current_menu is defined and current_menu == 'events' %}active{% endif %}" href="{{ path('event_index')}}">Events</a>
                 </li>
             </ul>
         </div>
@@ -58,7 +41,6 @@
 
         </script>
         <div class="col-1">
-            lvl user
         </div>
         <div class="col-3">
             <ul class="navbar-nav mr-auto row">
@@ -114,10 +96,6 @@
                             <p>{{ app.user.pseudo }}</p>
                         <a class="dropdown-item" href="{{ path('user.edit',{'id':app.user.id})}}">Edit Profil</a>
                         <a class="dropdown-item" href="{{ path('groups.create')}}">Créer un groupe</a>
-                        {% endif %}
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="{{ path('badges.createBadges') }}">Créer un badge</a>
                         {% endif %}
                         <div class="dropdown-divider"></div>
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}

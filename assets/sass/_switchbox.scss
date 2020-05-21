@@ -1,0 +1,26 @@
+.switch{
+  position: absolute;
+  top:-155px;
+  right: 20px;
+  width: 60px;
+  height: 30px;
+  background-color: $red-dark;
+  border-radius: 15px;
+  &:before{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    content: 'privé';
+    color: $white;
+    text-align: center;
+  }
+}
+input:checked {
+  + .switch{
+    background-color: green;
+  }
+  + .switch:before{
+    content: 'public';
+
+  }
+}

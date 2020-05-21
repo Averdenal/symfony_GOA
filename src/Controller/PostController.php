@@ -11,9 +11,10 @@ use App\Entity\Reaction;
 use App\Entity\User;
 use App\Form\PostType;
 use DateTime;
-use Doctrine\ORM\EntityManager;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -55,23 +56,39 @@ class PostController extends AbstractController
     public function deletePost(Post $post)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        if($post->getCreatedBy() == $this->getUser() || $post->getProfile() == $this->getUser()){
-            $entityManager = $this->getDoctrine()->getManager();
+        if($post->getCreatedBy() == $this->getUser() || $post->getProfile() == $this->getUser() || $post->getGroupe()->getCreatedBy() == $this->getUser()){
+            $entityManager = $this->getDoctrine()->getManagerForClass(Post::class);
             $entityManager->remove($post);
             $entityManager->flush();
         }
-        return $this->json($post->getProfile()->getId());
+        if($post->getProfile() != null){
+            return $this->json(['source'=>'Profil','id'=>$post->getProfile()->getId()]);
+        }elseif ($post->getGroupe() != null){
+            return $this->json(['source'=>'Group','id'=>$post->getGroupe()->getId()]);
+        }else{
+            //get page a prévoir
+            return $this->json(0);
+        }
+
     }
+
     /**
      * @Route("/add/Reaction",name="post.addReaction",methods={"POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param Request $request
+     * @return JsonResponse
      */
     public function addReaction(Request $request)
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $post = $this->getDoctrine()->getRepository(Post::class)->find($request->request->get('post'));
-
+        $membre = false;
         $friend = $this->getDoctrine()->getRepository(Friends::class)->isFriend($post->getCreatedBy(),$this->getUser());
-        if( $friend == 'ok'){
+        foreach ($this->getUser()->getAffGroupes() as $groups){
+            if($groups->getUser() == $this->getUser()){
+                $membre = true;
+            }
+        }
+        if( $friend == 'ok' || $membre){
             $reaction = $this->getDoctrine()->getRepository(Reaction::class)->findOneBy([
                 'user'=>$this->getUser(),
                 'post'=>$post]);
@@ -100,12 +117,8 @@ class PostController extends AbstractController
             }else{
                 return $this->json('null reaction');
             }
-
         }
-
-        return $this->json('nok',403);
-
+        throw $this->createAccessDeniedException();
     }
-
 
 }
