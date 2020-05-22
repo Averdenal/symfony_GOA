@@ -185,6 +185,7 @@ class GroupController extends AbstractController
      * @Route("/group/post/{id}",name="groupe.post")
      * @param Post $post
      * @return Response
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function showCommentPostGroup(Post $post)
     {
