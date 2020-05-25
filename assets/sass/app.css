@@ -651,6 +651,9 @@ input:checked + .switch:before {
   .btn_Action a:last-child {
     border-radius: 0 10px 10px 0; }
 
+@media (min-width: 200px) and (max-width: 950px) {
+  .mobile-none {
+    display: none; } }
 a, h1, h2, h3, h4, h5, h6, p {
   font-family: Rajdhani,sans-serif; }
 

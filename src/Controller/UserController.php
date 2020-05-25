@@ -9,6 +9,7 @@ use App\Entity\Comment;
 use App\Entity\Friends;
 use App\Entity\Group;
 use App\Entity\Post;
+use App\Entity\Reaction;
 use App\Entity\User;
 use App\Form\CommentType;
 use App\Form\PostType;
@@ -19,10 +20,10 @@ use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 /**
  * Class UserController
@@ -30,19 +31,6 @@ use Symfony\Component\Security\Core\Security;
  */
 class UserController extends AbstractController
 {
-
-
-    /**
-     * @var Security
-     */
-    private $security;
-
-    public function __construct(Security $security)
-    {
-
-        $this->security = $security;
-    }
-
     /**
      * @Route("/profil",name="user.profil")
      * @param Request $request
@@ -53,7 +41,7 @@ class UserController extends AbstractController
     public function profilConnectUser(Request $request):Response
     {
 
-        if($this->security->isGranted('ROLE_USER')){
+        if($this->isGranted('ROLE_USER')){
             $groups = [];
             $post = new Post();
 
@@ -74,9 +62,8 @@ class UserController extends AbstractController
                     'createdBy'=>$this->getUser()
                 ]),
             ]);
-        }else{
-            throw $this->createAccessDeniedException('Vous devez validez votre mail pour voir cette section');
         }
+            throw $this->createAccessDeniedException('Vous devez validez votre mail pour voir cette section');
 
     }
 
@@ -90,36 +77,36 @@ class UserController extends AbstractController
     {
 
         $yourFriend = $this->getDoctrine()->getRepository(Friends::class)->isFriend($this->getUser(),$user);
-        if($user != $this->getUser()){
+        if($user != $this->getUser()) {
             $groups = [];
             foreach ($this->getDoctrine()->getRepository(AffGroupe::class)->findBy([
-                'user'=>$user
-            ]) as $value){
+                'user' => $user
+            ]) as $value) {
                 $groups[] = $value->getGroupe();
             }
             $user->setVisite($user->getVisite() + 1);
             $this->getDoctrine()->getManagerForClass(User::class)->flush();
             $post = new Post();
             $comment = new Comment();
-            $form = $this->createForm(PostType::class,$post);
-            $formComment = $this->createForm(CommentType::class,$comment);
-            return $this->render('users/profile.html.twig',[
+            $form = $this->createForm(PostType::class, $post);
+            $formComment = $this->createForm(CommentType::class, $comment);
+            return $this->render('users/profile.html.twig', [
                 "current_menu" => "profil",
                 'user' => $user,
                 "formPost" => $form->createView(),
-                "formComment"=> $formComment->createView(),
+                "formComment" => $formComment->createView(),
                 "friends" => $this->findFriendsUser($user),
-                "yourFriend"=>$yourFriend,
-                "groups"=>$groups,
-                "adminGroups"=>$this->getDoctrine()->getRepository(Group::class)->findBy([
-                    'createdBy'=>$user
+                "yourFriend" => $yourFriend,
+                "groups" => $groups,
+                "adminGroups" => $this->getDoctrine()->getRepository(Group::class)->findBy([
+                    'createdBy' => $user
                 ])
 
             ]);
-        }else{
-            return $this->redirectToRoute('user.profil');
         }
+            return $this->redirectToRoute('user.profil');
     }
+
     /**
      * @Route("/profil/edit/",name="user.edit")
      * @return Response
@@ -164,8 +151,6 @@ class UserController extends AbstractController
             ]);
 
         }
-
-
     }
 
     /**
@@ -285,7 +270,6 @@ class UserController extends AbstractController
                     ];
         }
         return $tab;
-
     }
 
     /**
@@ -324,6 +308,7 @@ class UserController extends AbstractController
         }
 
     }
+
     /**
      * @Route("/friend/delete/{id}", name="friend.delete",methods={"DELETE"})
      * @param User $user
@@ -343,5 +328,107 @@ class UserController extends AbstractController
         }
         $this->getDoctrine()->getManager()->flush();
         return $this->json('delete ok');
+    }
+
+    /**
+     * @Route("/add/post/profil/{id}",name="post.addPostProfilUser",methods={"POST"})
+     * @param Request $request
+     * @param User $user
+     * @return RedirectResponse
+     * @throws Exception
+     */
+    public function addProfilPost(Request $request,User $user)
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if($this->getUser() == $user || $this->getDoctrine()->getRepository(Friends::class)->isFriend($this->getUser(),$user) == 'ok'){
+            $post = new Post();
+            $form = $this->createForm(PostType::class,$post);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
+                $post->setCreatedAt(new DateTime('now'))
+                    ->setCreatedBy($this->getUser())
+                    ->setProfile($user);
+                $this->getDoctrine()->getManagerForClass('App:Post')->persist($post);
+                $this->getDoctrine()->getManagerForClass('App:Post')->flush();
+            }
+            if($user == $this->getUser()){
+                return $this->redirectToRoute('user.profil');
+            }else{
+                return $this->redirectToRoute('user.show',['id'=> $user->getId()]);
+            }
+        }
+    }
+
+    /**
+     * @Route("/delete/post/{id}",name="post.deletePost",methods={"DELETE"})
+     * @param Post $post
+     * @return JsonResponse
+     */
+    public function deletePost(Post $post)
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        if($post->getCreatedBy() == $this->getUser() || $post->getProfile() == $this->getUser() || $post->getGroupe()->getCreatedBy() == $this->getUser()){
+            $entityManager = $this->getDoctrine()->getManagerForClass(Post::class);
+            $entityManager->remove($post);
+            $entityManager->flush();
+        }
+        if($post->getProfile() != null){
+            return $this->json(['source'=>'Profil','id'=>$post->getProfile()->getId()]);
+        }elseif ($post->getGroupe() != null){
+            return $this->json(['source'=>'Group','id'=>$post->getGroupe()->getId()]);
+        }else{
+            //get page a prévoir
+            return $this->json(0);
+        }
+
+    }
+
+    /**
+     * @Route("/add/Reaction",name="post.addReaction",methods={"POST"})
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function addReaction(Request $request)
+    {
+        $post = $this->getDoctrine()->getRepository(Post::class)->find($request->request->get('post'));
+        $membre = false;
+        $friend = $this->getDoctrine()->getRepository(Friends::class)->isFriend($post->getCreatedBy(),$this->getUser());
+        foreach ($this->getUser()->getAffGroupes() as $groups){
+            if($groups->getUser() == $this->getUser()){
+                $membre = true;
+            }
+        }
+        if( $friend == 'ok' || $membre){
+            $reaction = $this->getDoctrine()->getRepository(Reaction::class)->findOneBy([
+                'user'=>$this->getUser(),
+                'post'=>$post]);
+            $identic = false;
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            if($reaction){
+                if( $reaction->getReact() == $request->request->get('reaction')){
+                    $identic = true;
+                }
+                $post->removeReaction($reaction);
+                $entityManager->persist($post);
+                $entityManager->flush();
+            }
+            if(!$identic){
+                $r = new Reaction();
+                $r->setPost($post);
+                $r->setUser($this->getUser());
+                $r->setReact($request->request->get('reaction'));
+
+                $post->addReaction($r);
+                $entityManager->persist($post);
+                $entityManager->flush();
+                return $this->json('ok');
+            }else{
+                return $this->json('null reaction');
+            }
+        }
+        throw $this->createAccessDeniedException();
     }
 }

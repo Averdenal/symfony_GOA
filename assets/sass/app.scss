@@ -26,6 +26,13 @@ $font-secondary: 'Titillium Web', sans-serif;
 @import "switchbox";
 
 @import "login_register/login_register";
+@media (min-width: 200px) and (max-width: 950px) {
+
+  .mobile-none{
+    display: none;
+  }
+
+}
 
 a, h1, h2, h3, h4, h5, h6, p {
   font-family: Rajdhani,sans-serif;

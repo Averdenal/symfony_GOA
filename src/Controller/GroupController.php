@@ -204,7 +204,9 @@ class GroupController extends AbstractController
                 'formPost'=>$form->createView(),
                 'post' => $post,
                 "formComment" => $form->createView(),
-                "editComment" =>true
+                "editComment" =>true,
+                "membre" => $member,
+                "admin" => $post->getCreatedBy() == $this->getUser()
 
             ]);
 

@@ -18,6 +18,9 @@ class SecurityController extends AbstractController
 {
     /**
      * @Route("/login", name="app_login")
+     * @param AuthenticationUtils $authenticationUtils
+     * @param Request $request
+     * @return Response
      */
     public function login(AuthenticationUtils $authenticationUtils,Request $request): Response
     {

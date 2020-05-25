@@ -10,7 +10,7 @@
                     <img src="{% if user.banner is null %}{{ asset('build/img/cover/1.jpg') }}{% else %}{{ asset(user.banner.url) }}{% endif %}" alt="Banner" class="banner">
                     <img src="{% if user.pictureProfil is null %}{{ asset('build/img/avatars/2.jpg') }}{% else %}{{ asset(user.pictureProfil.url) }}{% endif %}" alt="Avatar" class="picture_Profil">
                 </figure>
-                <div class="info_User p-4 bg-light d-flex align-items-center justify-content-around">
+                <div class="info_User p-4 bg-light d-flex align-items-center justify-content-around flex-wrap">
                     <div class="align-items-center d-flex align-items-center justify-content-around flex_1">
                         <div class="d-flex align-items-center flex-column col-3">
                             <p>{{ user.visite -}}</p>
@@ -75,12 +75,6 @@
                                     </svg>
                                     Me saoul
                                 </button>
-                                <button class="btn btn-primary">
-                                    <svg class="icon-send-message">
-                                        <use xlink:href="#svg-send-message"></use>
-                                    </svg>
-                                    Message
-                                </button>
                                 {% endif %}
                         {% else %}
                             <a href="{{ path('user.edit') }}" class="btn btn-warning btn_Sectting">
@@ -97,7 +91,6 @@
             </div>
         </div>
         <!--  /top profil -->
-
         <!--  sub menu  -->
         {% include'content/widgets/sub_menu.html.twig' %}
         <!--  /sub menu  -->
@@ -125,7 +118,5 @@
         <!-- section events -->
         {% include 'users/sections/section-events.html.twig' %}
         <!-- /section events -->
-
-
     </div>
 {% endblock %}
