@@ -3,11 +3,20 @@
     {{ form_row(formComment.content,{'attr':{'class':'comment-Content-'~post.id}}) }}
     <div class="w-100 row m-0">
         <div class="col-1 p-0">
-            <a href="{{ app.request.headers.get('referer') }}" class="w-100 btn btn-danger">
-                <svg class="icon-back-arrow" style="fill: white">
-                    <use xlink:href="#svg-back-arrow"></use>
-                </svg>
-            </a>
+            {% if post.groupe is not null%}
+                <a href="{{ path('groupe.show',{'id':post.groupe.id}) }}" class="w-100 btn btn-danger">
+                    <svg class="icon-back-arrow" style="fill: white">
+                        <use xlink:href="#svg-back-arrow"></use>
+                    </svg>
+                </a>
+            {% else %}
+                <a href="{{ path('user.show',{'id':post.profile.id}) }}" class="w-100 btn btn-danger">
+                    <svg class="icon-back-arrow" style="fill: white">
+                        <use xlink:href="#svg-back-arrow"></use>
+                    </svg>
+                </a>
+            {% endif %}
+
         </div>
         <div class="col-11 p-0">
             <input type="submit" class="btn btn-success w-100" value="Ajouter">

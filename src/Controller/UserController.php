@@ -245,34 +245,7 @@ class UserController extends AbstractController
     }
 
 
-    public function findFriendsUser($value)
-    {
-        $friends = $this->getDoctrine()->getRepository('App:Friends')->findFriends($value);
-        $friendsValide = [];
-        foreach ($friends as $friend){
-            $f = new Friends();
-            if($friend->getUser1() == $value){
-                $f->SetUser1($friend->getUser1());
-                $f->setUser2($friend->getUser2());
-            }else{
-                $f->SetUser1($friend->getUser2());
-                $f->setUser2($friend->getUser1());
-            }
 
-            $f->setStatus($friend->getStatus());
-            $friendsValide[] = $f;
-        }
-        $friendsValide = array_unique($friendsValide,SORT_REGULAR);
-        $tab = [];
-        foreach ($friendsValide as $friendValide){
-            $user = new User();
-            $user = $this->getDoctrine()->getRepository(User::class)->find($friendValide->getUser2()->getId());
-            $tab[] = ['status'=>$friendValide->getStatus(),
-                    'user'=>$user
-                    ];
-        }
-        return $tab;
-    }
 
     /**
      * @Route("/friend/add/{id}", name="friend.add")
@@ -294,7 +267,7 @@ class UserController extends AbstractController
                 $this->getDoctrine()->getManager()->flush();
                 return $this->json('add Friend');
             }else{
-                return $this->json('Friends avec toi? chelou non ?');
+                return $this->json('Friends avec toi même? chelou non ?');
             }
 
         }else{
@@ -432,5 +405,34 @@ class UserController extends AbstractController
             }
         }
         throw $this->createAccessDeniedException();
+    }
+
+    private function findFriendsUser($value)
+    {
+        $friends = $this->getDoctrine()->getRepository('App:Friends')->findFriends($value);
+        $friendsValide = [];
+        foreach ($friends as $friend){
+            $f = new Friends();
+            if($friend->getUser1() == $value){
+                $f->SetUser1($friend->getUser1());
+                $f->setUser2($friend->getUser2());
+            }else{
+                $f->SetUser1($friend->getUser2());
+                $f->setUser2($friend->getUser1());
+            }
+
+            $f->setStatus($friend->getStatus());
+            $friendsValide[] = $f;
+        }
+        $friendsValide = array_unique($friendsValide,SORT_REGULAR);
+        $tab = [];
+        foreach ($friendsValide as $friendValide){
+            $user = new User();
+            $user = $this->getDoctrine()->getRepository(User::class)->find($friendValide->getUser2()->getId());
+            $tab[] = ['status'=>$friendValide->getStatus(),
+                'user'=>$user
+            ];
+        }
+        return $tab;
     }
 }

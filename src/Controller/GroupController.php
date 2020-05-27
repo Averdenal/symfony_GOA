@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Controller;
-
 
 use App\Entity\AffGroupe;
 use App\Entity\Comment;
