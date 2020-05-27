@@ -22,7 +22,7 @@ class EventRepository extends ServiceEntityRepository
     public function findEvents()
     {
         return $this->createQueryBuilder('event')
-            ->where('event.beginAt > :value')
+            ->where('event.beginAt >= :value')
             ->setParameter(':value', new \DateTime("now"))
             ->orderBy('event.beginAt', 'ASC')
             ->getQuery();
