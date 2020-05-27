@@ -7,13 +7,13 @@
                 <p>{{ user.description }}</p>
             </div>
         </aside>
-        <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="col-lg-6 col-md-12 col-sm-12">
             {% if editComment is not defined %}
-                {% if yourFriend is not defined or yourFriend == 'ok'%}
+                {% if yourFriend is defined and yourFriend == 'ok' or user == app.user%}
                     {% include 'content/users/add_Post.html.twig' %}
                 {% endif %}
                 <!-- lists posts -->
-                {% for post in user.ProfilePost|reverse %}
+                {% for post in posts|reverse %}
                     {% include 'content/users/posts.html.twig' %}
                 {% endfor %}
             {% else %}

@@ -20,6 +20,13 @@
     {% if post.createdBy == app.user or post.profile == app.user %}
     <a href="" class="delete_Post_User btn btn-danger"></a>
     {% endif %}
+    {% if post.privat == false %}
+        <div class="private">
+            <svg class="icon-private">
+                <use xlink:href="#svg-private"></use>
+            </svg>
+        </div>
+    {% endif %}
         <div class="col-12 p-2 row">
             <div class="col-2">
                 <a href="{{ path('user.show',{'id':post.createdBy.id}) }}">

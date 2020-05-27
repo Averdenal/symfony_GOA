@@ -2,10 +2,6 @@
     <a class="navbar-brand" href="{{ path('user.profil') }}">
         <img src="{{ asset('build/img/logo/logo.png') }}" alt="" class="logo_top">
         Getting Out Again</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
     <div class="collapse navbar-collapse row" id="navbarSupportedContent">
         <div class="col-3">
             <ul class="navbar-nav mr-auto row">
@@ -107,5 +103,24 @@
                 </li>
             </ul>
         </div>
+    </div>
+</nav>
+<nav class="nav_Mobile">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <a href="{{ path('user.profil') }}">
+            <svg class="icon-profile">
+                <use xlink:href="#svg-profile"></use>
+            </svg>
+        </a>
+        <a href="{{ path('groups.allGroupePublic') }}">
+            <svg class="icon-group">
+                <use xlink:href="#svg-group"></use>
+            </svg>
+        </a>
+        <a href="{{ path('event_index') }}">
+            <svg class="icon-events-monthly">
+                <use xlink:href="#svg-events-monthly"></use>
+            </svg>
+        </a>
     </div>
 </nav>

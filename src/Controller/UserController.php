@@ -61,6 +61,7 @@ class UserController extends AbstractController
                 "adminGroups"=>$this->getDoctrine()->getRepository(Group::class)->findBy([
                     'createdBy'=>$this->getUser()
                 ]),
+                "posts" => $this->getDoctrine()->getRepository(Post::class)->findBy(['profile'=> $this->getUser()])
             ]);
         }
             throw $this->createAccessDeniedException('Vous devez validez votre mail pour voir cette section');
@@ -90,6 +91,11 @@ class UserController extends AbstractController
             $comment = new Comment();
             $form = $this->createForm(PostType::class, $post);
             $formComment = $this->createForm(CommentType::class, $comment);
+            if ($yourFriend == 'ok'){
+                $posts = $this->getDoctrine()->getRepository(Post::class)->findBy(['profile'=> $user->getId()]);
+            }else{
+                $posts = $this->getDoctrine()->getRepository(Post::class)->findBy(['profile'=> $user->getId(),'privat'=> true]);
+            }
             return $this->render('users/profile.html.twig', [
                 "current_menu" => "profil",
                 'user' => $user,
@@ -100,7 +106,8 @@ class UserController extends AbstractController
                 "groups" => $groups,
                 "adminGroups" => $this->getDoctrine()->getRepository(Group::class)->findBy([
                     'createdBy' => $user
-                ])
+                ]),
+                "posts" => $posts,
 
             ]);
         }

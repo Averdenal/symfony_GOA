@@ -30,11 +30,11 @@
                         </div>
                     </div>
                     {% if user.firstname is null or user.lastname is null %}
-                    <div class="d-flex justify-content-center flex_1">
+                    <div class="d-flex justify-content-center flex_1 name">
                         <p class="text_Pseudo">{{ user.pseudo }}</p>
                     </div>
                     {% else %}
-                    <div class="flex_1 d-flex align-items-center justify-content-center">
+                    <div class="flex_1 d-flex align-items-center justify-content-center name">
 
                         <div class="p-1">
                             <p class="name_User text-right">{{ user.firstname | capitalize  }}</p>

@@ -10,6 +10,9 @@
   background-position: 50% 50%;
   background-image: url("../img/banners/banner-bg.png");
   position: relative;
+  @media screen and (max-width: 640px){
+    padding: 22px 35px 0 200px;
+  }
 
   .section_Img{
     position: absolute;
@@ -25,6 +28,15 @@
     }
     p{
       font-size: 1.2rem;
+    }
+    @media screen and (max-width: 640px){
+      h2{
+        font-size: 1.7rem;
+      }
+      p{
+        font-size: 1rem;
+        font-weight: 400;
+      }
     }
   }
 }
