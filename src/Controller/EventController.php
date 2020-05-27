@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,11 +19,20 @@ class EventController extends AbstractController
 {
     /**
      * @Route("", name="event_index", methods={"GET"})
+     * @param EventRepository $eventRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
      */
-    public function index(EventRepository $eventRepository): Response
+    public function index(EventRepository $eventRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $pagination = $paginator->paginate(
+            $eventRepository->findEvents(),
+            $request->query->getInt('page', 1),
+            9
+        );
         return $this->render('event/index.html.twig', [
-            'events' => $eventRepository->findAll(),
+            'events' => $pagination,
             'current_menu' => 'events'
         ]);
     }

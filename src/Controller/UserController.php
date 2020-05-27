@@ -32,7 +32,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/profil",name="user.profil")
+     * @Route("/",name="user.profil")
      * @param Request $request
      * @return Response
      * @throws Exception

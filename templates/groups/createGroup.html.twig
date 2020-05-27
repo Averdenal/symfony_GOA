@@ -1,8 +1,19 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ form_start(form) }}
-    <input type="submit" value="Créer">
-    {{ form_end(form) }}
+    <div class="container top_Banner mt-4 mb-4">
+        <img src="{{ asset('build/img/banners/groups-icon.png') }}" alt="" class="section_Img">
+        <div class="top_Banner_Text">
+            <h2>Les groupes</h2>
+            <p>tu veux un nouveau groupe ?</p>
+        </div>
+    </div>
+    <div class="container">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Créer" class="btn btn-success">
+        {{ form_end(form) }}
+    </div>
+
 {% endblock %}
 

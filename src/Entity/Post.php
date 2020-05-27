@@ -11,10 +11,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PostRepository")
- * @ApiResource(
- *     collectionOperations={},
- *     itemOperations={"get"}
- * )
  */
 class Post
 {

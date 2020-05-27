@@ -1,7 +1,7 @@
-# symfony_GOA
-projet 5
+# Getting Out Again
+projet 5 - platform coop pour le groupe Teamsortie FB
 
 ### Pour lancer le projet
-Composer install
+-Composer install
 
-et npm run dev-server
+-npm run dev-server

@@ -20,7 +20,6 @@ class User implements UserInterface,\Serializable
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"show:comment"})
      */
     private $id;
 
@@ -42,19 +41,16 @@ class User implements UserInterface,\Serializable
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"show:comment"})
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"show:comment"})
      */
     private $lastname;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"show:comment"})
      */
     private $pseudo;
 
@@ -110,7 +106,6 @@ class User implements UserInterface,\Serializable
 
     /**
      * @ORM\OneToOne(targetEntity="App\Entity\Picture", cascade={"persist"})
-     * @Groups({"show:comment"})
      */
     private $pictureProfil;
 
