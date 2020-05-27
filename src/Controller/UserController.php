@@ -164,7 +164,8 @@ class UserController extends AbstractController
     {
         if($post->getCreatedBy() == $this->getUser() ||
             $post->getProfile() == $this->getUser() ||
-            $this->getDoctrine()->getRepository(Friends::class)->isFriend($this->getUser(),$post->getCreatedBy()) == 'ok') {
+            $this->getDoctrine()->getRepository(Friends::class)->isFriend($this->getUser(),$post->getCreatedBy()) == 'ok'||
+            $this->getDoctrine()->getRepository(Friends::class)->isFriend($this->getUser(),$post->getProfile()) == 'ok') {
             $comment = new Comment();
             $form = $this->createForm(CommentType::class, $comment);
             $groups = [];
@@ -203,7 +204,8 @@ class UserController extends AbstractController
     {
         if($post->getCreatedBy() == $this->getUser() ||
             $post->getProfile() == $this->getUser() ||
-            $this->getDoctrine()->getRepository(Friends::class)->isFriend($this->getUser(),$post->getCreatedBy()) == 'ok') {
+            $this->getDoctrine()->getRepository(Friends::class)->isFriend($this->getUser(),$post->getCreatedBy()) == 'ok'
+        || $this->getDoctrine()->getRepository(Friends::class)->isFriend($this->getUser(),$post->getProfile())== 'ok') {
             $comment = new Comment();
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
